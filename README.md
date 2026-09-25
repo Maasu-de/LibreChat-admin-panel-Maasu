@@ -2,6 +2,36 @@
 
 A browser-based management interface for [LibreChat](https://github.com/danny-avila/LibreChat). It connects to the same database as the main application and provides a GUI for tasks that would otherwise require editing `librechat.yaml` directly.
 
+## Maasu branding and governed deployment
+
+This repository is the dedicated Maasu fork of LibreChat Admin Panel. The
+branding is limited to the document title, favicon and web manifest, sidebar
+logo, and login card; authentication, permissions, and administrative features
+remain upstream implementations. `src/branding.ts` holds the panel name and
+base-path-aware asset URLs. To update the brand, change that file, the English
+strings in `src/locales/en/translation.json`, and the SVGs in `public/`.
+`maasu-wordmark.svg` is copied from
+`LibreChat-Maasu/client/public/assets/logo-librechat.svg`; the compact mark
+and favicon use its `m` path. Keep these assets in sync with the approved
+LibreChat brand when updating them.
+
+For governed development, clone this fork as `LibreChat-admin-panel-Maasu`
+beside `ai-governance-gateway` and `LibreChat-Maasu`. The gateway's
+`deploy/compose.yaml` builds this checkout through
+`LIBRECHAT_ADMIN_BUILD_CONTEXT` and tags the result with
+`LIBRECHAT_ADMIN_IMAGE`. From the gateway repository, run:
+
+```bash
+docker compose --env-file .env -f deploy/compose.yaml up -d --no-deps --build librechat-admin
+```
+
+The gateway on `http://localhost:3090/` requires Governance/Keycloak login;
+use an account with the `governance-admin` realm role. The direct admin port is
+not published. For server deployments, check out the reviewed admin-fork
+revision alongside the gateway before running `deploy/scripts/deploy.sh`.
+See the gateway's `deploy/README.md` for environment and SSO setup. No
+container-side patching is needed.
+
 ## Features
 
 - **Configuration management** — View and edit all LibreChat settings through a dynamic, schema-driven form. New fields added to the schema appear automatically.
