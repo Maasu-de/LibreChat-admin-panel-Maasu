@@ -73,11 +73,13 @@ export function CommandMenu({ open, onOpenChange }: t.CommandMenuProps) {
             label={localize('com_nav_dashboard')}
             onSelect={() => navigateTo('/')}
           />
-          <CommandItem
-            icon="settings"
-            label={localize('com_nav_configuration')}
-            onSelect={() => navigateTo('/configuration')}
-          />
+          {!pilotEnabled && (
+            <CommandItem
+              icon="settings"
+              label={localize('com_nav_configuration')}
+              onSelect={() => navigateTo('/configuration')}
+            />
+          )}
           <CommandItem
             icon="user"
             label={localize('com_nav_access')}
