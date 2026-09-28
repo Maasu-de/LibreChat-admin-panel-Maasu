@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Icon } from '@clickhouse/click-ui';
 import { Link } from '@tanstack/react-router';
 import type * as t from '@/types';
-import { useCapabilities, useLocalize } from '@/hooks';
+import { useCapabilities, useLocalize, usePilotMode } from '@/hooks';
 import { SystemCapabilities } from '@/constants';
 
 const QUICK_LINKS: (t.NavItem & { descKey: string })[] = [
@@ -36,6 +36,7 @@ const QUICK_LINKS: (t.NavItem & { descKey: string })[] = [
 
 export function DashboardPage() {
   const localize = useLocalize();
+  const pilotEnabled = usePilotMode();
   const { hasCapability } = useCapabilities();
 
   const isMac =
@@ -44,11 +45,12 @@ export function DashboardPage() {
   const visibleLinks = useMemo(
     () =>
       QUICK_LINKS.filter((link) => {
+        if (pilotEnabled && link.path === '/configuration') return false;
         if (!link.capability) return true;
         if (Array.isArray(link.capability)) return link.capability.some((c) => hasCapability(c));
         return hasCapability(link.capability);
       }),
-    [hasCapability],
+    [hasCapability, pilotEnabled],
   );
 
   return (
