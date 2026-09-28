@@ -6,14 +6,15 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { Title as DialogTitle, Description as DialogDescription } from '@radix-ui/react-dialog';
 import type * as t from '@/types';
 import { CONFIG_TABS } from './configuration/configMeta';
-import { useSearchIndex, useLocalize } from '@/hooks';
+import { useSearchIndex, useLocalize, usePilotMode } from '@/hooks';
 import { useTheme } from '@/contexts/ThemeContext';
 
 export function CommandMenu({ open, onOpenChange }: t.CommandMenuProps) {
   const localize = useLocalize();
+  const pilotEnabled = usePilotMode();
   const router = useRouter();
   const { setTheme } = useTheme();
-  const { items: configSections } = useSearchIndex(localize, open);
+  const { items: configSections } = useSearchIndex(localize, open && !pilotEnabled);
 
   const [search, setSearch] = useState('');
   const listRef = useRef<HTMLDivElement>(null);
@@ -95,7 +96,7 @@ export function CommandMenu({ open, onOpenChange }: t.CommandMenuProps) {
         </Command.Group>
 
         <Command.Group heading={localize('com_cmdk_group_tabs')} className="cmdk-group">
-          {CONFIG_TABS.map((tab) => (
+          {!pilotEnabled && CONFIG_TABS.map((tab) => (
             <CommandItem
               key={`config-tab-${tab.id}`}
               icon="settings"

@@ -5,6 +5,7 @@ export * from './useCommandMenu';
 export * from './useDebouncedFilter';
 export * from './useHighlightRef';
 export * from './useLocalize';
+export * from './usePilotMode';
 export * from './useProfileMutations';
 export * from './useReorderVoiceover';
 export * from './useSearchIndex';

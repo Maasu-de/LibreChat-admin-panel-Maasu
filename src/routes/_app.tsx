@@ -7,7 +7,7 @@ import { CommandMenu } from '@/components/CommandMenu';
 import { AccessDenied } from '@/components/shared';
 import { SystemCapabilities } from '@/constants';
 import { Sidebar } from '@/components/Sidebar';
-import { verifyAdminTokenFn } from '@/server';
+import { getPilotModeFn, verifyAdminTokenFn } from '@/server';
 import { Header } from '@/components/Header';
 
 const ROUTE_TITLE_KEYS: Record<string, string> = {
@@ -31,7 +31,7 @@ export const Route = createFileRoute('/_app')({
       });
     }
 
-    return { user: result.user };
+    return { user: result.user, pilotEnabled: await getPilotModeFn() };
   },
   component: AppLayout,
   errorComponent: AppError,

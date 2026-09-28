@@ -49,6 +49,7 @@
   "com_nav_go_home": "Go home",
   "com_config_title": "Configuration",
   "com_config_subtitle": "View and manage instance configuration settings",
+  "com_config_pilot_fixed": "LibreChat settings are fixed for this deployment. Configuration changes are managed outside this admin panel.",
   "com_config_loading": "Loading configuration...",
   "com_config_select_section": "Select a section to view configuration",
   "com_config_no_results": "No configuration found",
