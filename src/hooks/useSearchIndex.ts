@@ -30,7 +30,10 @@ export function useSearchIndex(
     enabled: shouldLoad,
   });
 
-  const items = useMemo(() => (tree ? buildSearchItems(tree, localize) : []), [tree, localize]);
+  const items = useMemo(
+    () => (shouldLoad && tree ? buildSearchItems(tree, localize) : []),
+    [tree, localize, shouldLoad],
+  );
 
   return { items, loading: isLoading };
 }

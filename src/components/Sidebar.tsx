@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Icon, Dropdown } from '@clickhouse/click-ui';
 import { Link, useRouter } from '@tanstack/react-router';
 import type * as t from '@/types';
-import { useStripAriaExpanded, useCapabilities, useLocalize } from '@/hooks';
+import { useStripAriaExpanded, useCapabilities, useLocalize, usePilotMode } from '@/hooks';
 import libreChatLogo from '@/assets/librechat.svg';
 import { SettingsDialog } from './SettingsDialog';
 import { SystemCapabilities } from '@/constants';
@@ -42,6 +42,7 @@ function getUserInitials(user?: { name?: string; email?: string } | null): strin
 
 export function Sidebar({ user, collapsed, onToggle }: t.SidebarProps) {
   const localize = useLocalize();
+  const pilotEnabled = usePilotMode();
   const router = useRouter();
   const { hasCapability } = useCapabilities();
   const currentPath = router.state.location.pathname;
@@ -50,6 +51,7 @@ export function Sidebar({ user, collapsed, onToggle }: t.SidebarProps) {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const visibleItems = navItems.filter((item) => {
+    if (pilotEnabled && item.path === '/configuration') return false;
     if (!item.capability) return true;
     if (Array.isArray(item.capability)) return item.capability.some((c) => hasCapability(c));
     return hasCapability(item.capability);

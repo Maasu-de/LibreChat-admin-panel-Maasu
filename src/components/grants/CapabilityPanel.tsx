@@ -3,8 +3,17 @@ import { Icon, Switch } from '@clickhouse/click-ui';
 import type { BaseSystemCapability } from '@librechat/data-schemas';
 import type * as t from '@/types';
 import { CapabilityImplications, CAPABILITY_CATEGORIES } from '@/constants';
-import { useLocalize } from '@/hooks';
+import { useLocalize, usePilotMode } from '@/hooks';
 import { cn } from '@/utils';
+
+function isPilotConfigWriteCapability(capability: string): boolean {
+  return (
+    capability === 'manage:configs' ||
+    capability === 'assign:configs' ||
+    capability.startsWith('manage:configs:') ||
+    capability.startsWith('assign:configs:')
+  );
+}
 
 const ALL_COLLAPSED = new Set(CAPABILITY_CATEGORIES.map((c) => c.key));
 
@@ -22,6 +31,7 @@ function getImpliedSet(capabilities: Record<string, boolean>): Set<string> {
 
 export function CapabilityPanel({ capabilities, onChange, disabled }: t.CapabilityPanelProps) {
   const localize = useLocalize();
+  const pilotEnabled = usePilotMode();
   const [collapsed, setCollapsed] = useState<Set<string>>(() => new Set(ALL_COLLAPSED));
   const impliedSet = getImpliedSet(capabilities);
 
@@ -55,6 +65,7 @@ export function CapabilityPanel({ capabilities, onChange, disabled }: t.Capabili
     if (!category) return;
     const updated = { ...capabilities };
     for (const cap of category.capabilities) {
+      if (pilotEnabled && isPilotConfigWriteCapability(cap)) continue;
       updated[cap] = value;
     }
     onChange(updated);
@@ -63,7 +74,10 @@ export function CapabilityPanel({ capabilities, onChange, disabled }: t.Capabili
   return (
     <div className="flex flex-col gap-2">
       {CAPABILITY_CATEGORIES.map((category) => {
-        const caps = category.capabilities;
+        const caps = pilotEnabled
+          ? category.capabilities.filter((cap) => !isPilotConfigWriteCapability(cap))
+          : category.capabilities;
+        if (caps.length === 0) return null;
         const enabledCount = caps.filter(
           (c: string) => capabilities[c] || impliedSet.has(c),
         ).length;

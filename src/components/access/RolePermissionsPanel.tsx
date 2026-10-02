@@ -3,7 +3,7 @@ import { Icon, Switch } from '@clickhouse/click-ui';
 import { PermissionTypes } from 'librechat-data-provider';
 import type * as t from '@/types';
 import { PERMISSION_TYPE_SCHEMA } from '@/constants';
-import { useLocalize } from '@/hooks';
+import { useLocalize, usePilotMode } from '@/hooks';
 import { cn } from '@/utils';
 
 const PERMISSION_TYPE_ORDER: PermissionTypes[] = [
@@ -25,6 +25,20 @@ const PERMISSION_TYPE_ORDER: PermissionTypes[] = [
   PermissionTypes.MARKETPLACE,
 ];
 
+const PILOT_BLOCKED_PERMISSIONS = new Set<PermissionTypes>([
+  PermissionTypes.AGENTS,
+  PermissionTypes.MEMORIES,
+  PermissionTypes.MCP_SERVERS,
+  PermissionTypes.REMOTE_AGENTS,
+  PermissionTypes.SKILLS,
+  PermissionTypes.MULTI_CONVO,
+  PermissionTypes.RUN_CODE,
+  PermissionTypes.WEB_SEARCH,
+  PermissionTypes.FILE_SEARCH,
+  PermissionTypes.FILE_CITATIONS,
+  PermissionTypes.MARKETPLACE,
+]);
+
 const multiPermTypes = PERMISSION_TYPE_ORDER.filter((pt) => PERMISSION_TYPE_SCHEMA[pt].length > 1);
 const singlePermTypes = PERMISSION_TYPE_ORDER.filter(
   (pt) => PERMISSION_TYPE_SCHEMA[pt].length === 1,
@@ -36,6 +50,13 @@ export function RolePermissionsPanel({
   disabled,
 }: t.RolePermissionsPanelProps) {
   const localize = useLocalize();
+  const pilotEnabled = usePilotMode();
+  const visibleMultiPermTypes = pilotEnabled
+    ? multiPermTypes.filter((type) => !PILOT_BLOCKED_PERMISSIONS.has(type))
+    : multiPermTypes;
+  const visibleSinglePermTypes = pilotEnabled
+    ? singlePermTypes.filter((type) => !PILOT_BLOCKED_PERMISSIONS.has(type))
+    : singlePermTypes;
   const [collapsed, setCollapsed] = useState<Set<PermissionTypes>>(() => new Set(multiPermTypes));
 
   const toggleCollapsed = (type: PermissionTypes) => {
@@ -68,7 +89,7 @@ export function RolePermissionsPanel({
     <div className="flex flex-col gap-4">
       {/* Expandable permission cards */}
       <div className="flex flex-col gap-2">
-        {multiPermTypes.map((type) => {
+        {visibleMultiPermTypes.map((type) => {
           const perms = PERMISSION_TYPE_SCHEMA[type];
           const section = permissions[type] ?? {};
           const allEnabled = perms.every((p) => section[p] === true);
@@ -160,19 +181,19 @@ export function RolePermissionsPanel({
       </div>
 
       {/* Clustered single-permission toggles */}
-      {singlePermTypes.length > 0 && (
+      {visibleSinglePermTypes.length > 0 && (
         <div className="flex flex-col gap-2">
           <span className="text-xs font-medium text-(--cui-color-text-muted)">
             {localize('com_perm_features')}
           </span>
           <div
             className={
-              singlePermTypes.length > 6
+              visibleSinglePermTypes.length > 6
                 ? 'grid w-fit grid-cols-[auto_auto_auto] gap-x-4 gap-y-1.5'
                 : 'flex flex-wrap gap-x-6 gap-y-1.5'
             }
           >
-            {singlePermTypes.map((type) => {
+            {visibleSinglePermTypes.map((type) => {
               const perm = PERMISSION_TYPE_SCHEMA[type][0];
               const section = permissions[type] ?? {};
               const switchId = `perm-${type}-${perm}`;
