@@ -225,7 +225,7 @@ export function AuthCard({
           <img
             src={brandAssets.wordmark}
             alt={localize('com_a11y_logo_alt')}
-            className="h-8 max-w-full dark:invert"
+            className="h-20 max-w-full dark:invert"
           />
           <Title type="h1">{localize('com_auth_title')}</Title>
           <p className="text-center text-sm text-(--cui-color-text-muted)">
@@ -250,7 +250,7 @@ export function AuthCard({
         <img
           src={brandAssets.wordmark}
           alt={localize('com_a11y_logo_alt')}
-          className="h-8 max-w-full dark:invert"
+          className="h-20 max-w-full dark:invert"
         />
         <Title type="h1">
           {step === '2fa' ? localize('com_auth_2fa_title') : localize('com_auth_title')}
