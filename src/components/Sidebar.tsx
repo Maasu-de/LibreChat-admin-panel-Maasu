@@ -93,7 +93,11 @@ export function Sidebar({ user, collapsed, onToggle }: t.SidebarProps) {
             <img
               src={collapsed ? brandAssets.mark : brandAssets.wordmark}
               alt={localize('com_a11y_logo_alt')}
-              className="h-6 max-w-full shrink-0 dark:invert"
+              className={cn(
+                collapsed
+                  ? 'h-6 max-w-full shrink-0 dark:invert'
+                  : 'h-10 max-w-full shrink-0 dark:invert',
+              )}
             />
           </div>
         </div>
