@@ -9,6 +9,7 @@ import { adminLoginFn, adminVerify2FAFn, openIdCheckOptions, openidLoginFn } fro
 import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from './InputOTP';
 import { PasswordInput } from './PasswordInput';
 import { useLocalize } from '@/hooks';
+import { brandAssets } from '@/branding';
 
 export function AuthCard({
   redirectTo = '/',
@@ -221,6 +222,11 @@ export function AuthCard({
         color="default"
       >
         <Container orientation="vertical" gap="lg" alignItems="center">
+          <img
+            src={brandAssets.wordmark}
+            alt={localize('com_a11y_logo_alt')}
+            className="h-20 max-w-full dark:invert"
+          />
           <Title type="h1">{localize('com_auth_title')}</Title>
           <p className="text-center text-sm text-(--cui-color-text-muted)">
             {localize('com_auth_sso_redirecting_auto')}
@@ -241,6 +247,11 @@ export function AuthCard({
       color="default"
     >
       <Container orientation="vertical" gap="lg" alignItems="center">
+        <img
+          src={brandAssets.wordmark}
+          alt={localize('com_a11y_logo_alt')}
+          className="h-20 max-w-full dark:invert"
+        />
         <Title type="h1">
           {step === '2fa' ? localize('com_auth_2fa_title') : localize('com_auth_title')}
         </Title>
