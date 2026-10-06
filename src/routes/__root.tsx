@@ -14,6 +14,7 @@ import {
 import type { ErrorComponentProps } from '@tanstack/react-router';
 import { ThemeProvider, useTheme } from '../contexts/ThemeContext';
 import appCss from '../styles.css?url';
+import { adminPanelName, brandAssets } from '../branding';
 import { useLocalize } from '@/hooks';
 
 const themeScript = `(function(){
@@ -36,7 +37,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'LibreChat Admin Panel',
+        title: adminPanelName,
       },
     ],
     links: [
@@ -46,7 +47,12 @@ export const Route = createRootRoute({
       },
       {
         rel: 'icon',
-        href: `${(import.meta.env.VITE_BASE_PATH || '').replace(/\/$/, '')}/favicon.ico`,
+        type: 'image/svg+xml',
+        href: brandAssets.favicon,
+      },
+      {
+        rel: 'manifest',
+        href: brandAssets.manifest,
       },
     ],
   }),
