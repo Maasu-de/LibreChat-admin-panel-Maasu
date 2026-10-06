@@ -40,7 +40,7 @@ function getUserInitials(user?: { name?: string; email?: string } | null): strin
   return '';
 }
 
-export function Sidebar({ user, collapsed, onToggle }: t.SidebarProps) {
+export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps) {
   const localize = useLocalize();
   const pilotEnabled = usePilotMode();
   const router = useRouter();
@@ -90,7 +90,11 @@ export function Sidebar({ user, collapsed, onToggle }: t.SidebarProps) {
       >
         <div className="flex h-14 shrink-0 items-center px-2">
           <div className="flex items-center gap-2.5 overflow-hidden px-1.5">
-            <img src={libreChatLogo} alt={localize('com_a11y_logo_alt')} className="h-6 w-6 shrink-0" />
+            <img
+              src={libreChatLogo}
+              alt={localize('com_a11y_logo_alt')}
+              className="h-6 w-6 shrink-0"
+            />
             <span className="truncate text-sm font-semibold text-(--cui-color-text-default)">
               {localize('com_auth_title')}
             </span>
@@ -119,6 +123,32 @@ export function Sidebar({ user, collapsed, onToggle }: t.SidebarProps) {
                 <span className="truncate text-sm">{localize(item.labelKey)}</span>
               </Link>
             ))}
+            {navigation.gatewayUrl && (
+              <a
+                href={navigation.gatewayUrl}
+                aria-label={collapsed ? 'Gateway' : undefined}
+                title={collapsed ? 'Gateway' : undefined}
+                className="flex h-8 items-center gap-2.5 overflow-hidden rounded-md px-2.5 text-sm font-normal whitespace-nowrap text-(--cui-color-text-muted) no-underline transition-colors duration-100 hover:bg-(--cui-color-background-hover) hover:text-(--cui-color-text-default)"
+              >
+                <span aria-hidden="true" className="shrink-0">
+                  <Icon name="home" size="sm" />
+                </span>
+                <span className="truncate text-sm">Gateway</span>
+              </a>
+            )}
+            {navigation.chatUrl && (
+              <a
+                href={navigation.chatUrl}
+                aria-label={collapsed ? 'Chat' : undefined}
+                title={collapsed ? 'Chat' : undefined}
+                className="flex h-8 items-center gap-2.5 overflow-hidden rounded-md px-2.5 text-sm font-normal whitespace-nowrap text-(--cui-color-text-muted) no-underline transition-colors duration-100 hover:bg-(--cui-color-background-hover) hover:text-(--cui-color-text-default)"
+              >
+                <span aria-hidden="true" className="shrink-0">
+                  <Icon name="home" size="sm" />
+                </span>
+                <span className="truncate text-sm">Chat</span>
+              </a>
+            )}
           </div>
         </nav>
 
