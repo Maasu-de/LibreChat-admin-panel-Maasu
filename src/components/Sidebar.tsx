@@ -78,6 +78,8 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
   };
 
   const initials = getUserInitials(user);
+  const gatewayLabel = localize('com_nav_gateway');
+  const chatLabel = localize('com_nav_chat');
 
   return (
     <>
@@ -126,27 +128,27 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
             {navigation.gatewayUrl && (
               <a
                 href={navigation.gatewayUrl}
-                aria-label={collapsed ? 'Gateway' : undefined}
-                title={collapsed ? 'Gateway' : undefined}
+                aria-label={collapsed ? gatewayLabel : undefined}
+                title={collapsed ? gatewayLabel : undefined}
                 className="flex h-8 items-center gap-2.5 overflow-hidden rounded-md px-2.5 text-sm font-normal whitespace-nowrap text-(--cui-color-text-muted) no-underline transition-colors duration-100 hover:bg-(--cui-color-background-hover) hover:text-(--cui-color-text-default)"
               >
                 <span aria-hidden="true" className="shrink-0">
                   <Icon name="home" size="sm" />
                 </span>
-                <span className="truncate text-sm">Gateway</span>
+                <span className="truncate text-sm">{gatewayLabel}</span>
               </a>
             )}
             {navigation.chatUrl && (
               <a
                 href={navigation.chatUrl}
-                aria-label={collapsed ? 'Chat' : undefined}
-                title={collapsed ? 'Chat' : undefined}
+                aria-label={collapsed ? chatLabel : undefined}
+                title={collapsed ? chatLabel : undefined}
                 className="flex h-8 items-center gap-2.5 overflow-hidden rounded-md px-2.5 text-sm font-normal whitespace-nowrap text-(--cui-color-text-muted) no-underline transition-colors duration-100 hover:bg-(--cui-color-background-hover) hover:text-(--cui-color-text-default)"
               >
                 <span aria-hidden="true" className="shrink-0">
                   <Icon name="home" size="sm" />
                 </span>
-                <span className="truncate text-sm">Chat</span>
+                <span className="truncate text-sm">{chatLabel}</span>
               </a>
             )}
           </div>

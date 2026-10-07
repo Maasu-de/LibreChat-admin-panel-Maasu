@@ -1189,6 +1189,8 @@
   "com_a11y_audit_filter_changed": "{{count}} audit log entries match the current filters",
   "com_a11y_audit_export_failed": "Audit log export failed",
   "com_nav_grants": "Grants",
+  "com_nav_gateway": "Gateway",
+  "com_nav_chat": "Chat",
   "com_nav_expand_sidebar": "Expand sidebar",
   "com_nav_collapse_sidebar": "Collapse sidebar",
   "com_nav_dashboard": "Dashboard",

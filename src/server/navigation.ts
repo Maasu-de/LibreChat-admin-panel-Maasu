@@ -1,4 +1,5 @@
 import { createServerFn } from '@tanstack/react-start';
+import { getApiBaseUrl } from './utils/url';
 
 function configuredHttpUrl(value: string | undefined): string | undefined {
   if (!value) return undefined;
@@ -33,6 +34,6 @@ export function resolveNavigationUrls(gatewayValue?: string, chatValue?: string)
 export const getNavigationUrlsFn = createServerFn({ method: 'GET' }).handler(() =>
   resolveNavigationUrls(
     process.env.WEB_PUBLIC_URL,
-    process.env.LIBRECHAT_PUBLIC_URL ?? process.env.VITE_API_BASE_URL,
+    process.env.LIBRECHAT_PUBLIC_URL ?? getApiBaseUrl(),
   ),
 );
