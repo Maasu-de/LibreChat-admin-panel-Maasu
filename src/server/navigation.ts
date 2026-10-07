@@ -34,6 +34,6 @@ export function resolveNavigationUrls(gatewayValue?: string, chatValue?: string)
 export const getNavigationUrlsFn = createServerFn({ method: 'GET' }).handler(() =>
   resolveNavigationUrls(
     process.env.WEB_PUBLIC_URL,
-    process.env.LIBRECHAT_PUBLIC_URL ?? getApiBaseUrl(),
+    process.env.LIBRECHAT_PUBLIC_URL || getApiBaseUrl(),
   ),
 );
