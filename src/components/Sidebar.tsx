@@ -3,7 +3,8 @@ import { Icon, Dropdown } from '@clickhouse/click-ui';
 import { Link, useRouter } from '@tanstack/react-router';
 import type * as t from '@/types';
 import { useStripAriaExpanded, useCapabilities, useLocalize, usePilotMode } from '@/hooks';
-import libreChatLogo from '@/assets/librechat.svg';
+import aimoLogo from '@/assets/logo.svg';
+import aimoLogoSmall from '@/assets/logo_small.svg';
 import { SettingsDialog } from './SettingsDialog';
 import { SystemCapabilities } from '@/constants';
 import { getInitials, cn } from '@/utils';
@@ -90,10 +91,16 @@ export function Sidebar({ user, collapsed, onToggle }: t.SidebarProps) {
       >
         <div className="flex h-14 shrink-0 items-center px-2">
           <div className="flex items-center gap-2.5 overflow-hidden px-1.5">
-            <img src={libreChatLogo} alt={localize('com_a11y_logo_alt')} className="h-6 w-6 shrink-0" />
-            <span className="truncate text-sm font-semibold text-(--cui-color-text-default)">
-              {localize('com_auth_title')}
-            </span>
+            <img
+              src={collapsed ? aimoLogoSmall : aimoLogo}
+              alt={localize('com_a11y_logo_alt')}
+              className={cn('aimo-logo shrink-0', collapsed ? 'h-7 w-7' : 'h-7 w-28')}
+            />
+            {!collapsed && (
+              <span className="aimo-display truncate text-sm text-(--cui-color-text-default)">
+                {localize('com_auth_title')}
+              </span>
+            )}
           </div>
         </div>
 

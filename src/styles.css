@@ -1,5 +1,35 @@
 @import 'tailwindcss';
 
+@font-face {
+  font-family: Inter;
+  src: url('./assets/fonts/Inter-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AIMO Display';
+  src: local('SHARY-Medium'), local('Shary Medium');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: Inter;
+  src: url('./assets/fonts/Inter-SemiBold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: Inter;
+  src: url('./assets/fonts/Inter-Bold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+}
+
+
 @theme {
   --z-sticky: 10; /* sticky table/section headers (in-tree) */
   --z-floating: 20; /* sidebar, content toolbars (in-tree) */
@@ -63,25 +93,25 @@
 
 @layer theme {
   :root {
-    --cui-color-stroke-default: #e3e5e8;
-    --cui-color-stroke-muted: #e3e5e8;
-    --cui-color-stroke-intense: #c9ccd1;
-    --cui-color-background-default: #ffffff;
-    --cui-color-background-muted: #f5f6f7;
-    --cui-color-background-panel: #ffffff;
-    --cui-color-background-hover: #f5f6f7;
-    --cui-color-background-active: #e3e5e8;
-    --cui-color-background-secondary: #f0f1f3;
-    --cui-color-text-default: #161517;
-    --cui-color-text-muted: #6c6f77;
-    --cui-color-text-disabled: #9a9ea7;
-    --cui-color-text-primary: #437eef;
-    --cui-color-text-link: #437eef;
+    --cui-color-stroke-default: #c0c0c0;
+    --cui-color-stroke-muted: #c0c0c0;
+    --cui-color-stroke-intense: #989caf;
+    --cui-color-background-default: #f5f8ff;
+    --cui-color-background-muted: #eaf5fc;
+    --cui-color-background-panel: #fefeff;
+    --cui-color-background-hover: #eaf5fc;
+    --cui-color-background-active: #d6ebfa;
+    --cui-color-background-secondary: #e1f0f9;
+    --cui-color-text-default: #010001;
+    --cui-color-text-muted: #4b5271;
+    --cui-color-text-disabled: #7c8295;
+    --cui-color-text-primary: #0115e9;
+    --cui-color-text-link: #0115e9;
     --cui-color-text-danger: #e20a0a;
-    --cui-color-title-default: #161517;
-    --cui-color-title-muted: #6c6f77;
-    --cui-color-accent: #437eef;
-    --cui-color-outline: #437eef;
+    --cui-color-title-default: #010001;
+    --cui-color-title-muted: #4b5271;
+    --cui-color-accent: #0115e9;
+    --cui-color-outline: #0115e9;
     --cui-color-shadow: rgb(0% 0% 0% / 0.1);
     --cui-color-accent-success: #16a34a;
     --cui-color-accent-warning: #d97706;
@@ -89,8 +119,8 @@
     --cui-color-accent-danger: #dc2626;
     --cui-color-accent-user: #7c3aed;
     --cui-radii-sm: 0.375rem;
-    --cui-color-feedback-info-bg: #e7effd;
-    --cui-color-feedback-info-fg: #437eef;
+    --cui-color-feedback-info-bg: #eaf5fc;
+    --cui-color-feedback-info-fg: #0115e9;
     --cui-color-feedback-success-bg: #e5ffe8;
     --cui-color-feedback-success-fg: #008a0b;
     --cui-color-feedback-warning-bg: #ffe2d1;
@@ -99,7 +129,7 @@
     --cui-color-feedback-danger-fg: #c10000;
     --cui-color-feedback-user-bg: #f3e8ff;
     --cui-color-feedback-user-fg: #6b21a8;
-    --cui-color-text-on-accent: #ffffff;
+    --cui-color-text-on-accent: #fefeff;
     --avatar-color-1: #1d4ed8;
     --avatar-color-2: #b45309;
     --avatar-color-3: #15803d;
@@ -108,25 +138,25 @@
   }
 
   .dark {
-    --cui-color-stroke-default: #323232;
-    --cui-color-stroke-muted: #323232;
-    --cui-color-stroke-intense: #414141;
-    --cui-color-background-default: #1f1f1c;
-    --cui-color-background-muted: #282828;
-    --cui-color-background-panel: #1f1f1c;
-    --cui-color-background-hover: #282828;
-    --cui-color-background-active: #323232;
-    --cui-color-background-secondary: #282828;
-    --cui-color-text-default: #ffffff;
-    --cui-color-text-muted: #b3b6bd;
-    --cui-color-text-disabled: #808080;
-    --cui-color-text-primary: #faff69;
-    --cui-color-text-link: #faff69;
+    --cui-color-stroke-default: #41456e;
+    --cui-color-stroke-muted: #41456e;
+    --cui-color-stroke-intense: #666b90;
+    --cui-color-background-default: #101327;
+    --cui-color-background-muted: #191970;
+    --cui-color-background-panel: #101327;
+    --cui-color-background-hover: #191970;
+    --cui-color-background-active: #262b68;
+    --cui-color-background-secondary: #191970;
+    --cui-color-text-default: #fefeff;
+    --cui-color-text-muted: #c0c0c0;
+    --cui-color-text-disabled: #8a8f9e;
+    --cui-color-text-primary: #89cff0;
+    --cui-color-text-link: #89cff0;
     --cui-color-text-danger: #ffbaba;
     --cui-color-title-default: rgb(97.5% 97.5% 97.5%);
-    --cui-color-title-muted: #b3b6bd;
-    --cui-color-accent: #faff69;
-    --cui-color-outline: #faff69;
+    --cui-color-title-muted: #c0c0c0;
+    --cui-color-accent: #89cff0;
+    --cui-color-outline: #89cff0;
     --cui-color-shadow: rgb(8.2353% 8.2353% 8.2353% / 0.6);
     --cui-color-accent-success: #4ade80;
     --cui-color-accent-warning: #fbbf24;
@@ -134,8 +164,8 @@
     --cui-color-accent-danger: #f87171;
     --cui-color-accent-user: #a78bfa;
     --cui-radii-sm: 0.375rem;
-    --cui-color-feedback-info-bg: #0d3e9b;
-    --cui-color-feedback-info-fg: #d0dffb;
+    --cui-color-feedback-info-bg: #191970;
+    --cui-color-feedback-info-fg: #89cff0;
     --cui-color-feedback-success-bg: #004206;
     --cui-color-feedback-success-fg: #ccffd0;
     --cui-color-feedback-warning-bg: #7a2d00;
@@ -144,7 +174,7 @@
     --cui-color-feedback-danger-fg: #ffbaba;
     --cui-color-feedback-user-bg: rgb(107 33 168 / 0.3);
     --cui-color-feedback-user-fg: #d8b4fe;
-    --cui-color-text-on-accent: #ffffff;
+    --cui-color-text-on-accent: #010001;
     --avatar-color-1: #1d4ed8;
     --avatar-color-2: #b45309;
     --avatar-color-3: #15803d;
@@ -154,25 +184,25 @@
 
   @media (prefers-color-scheme: dark) {
     :root:not(.light) {
-      --cui-color-stroke-default: #323232;
-      --cui-color-stroke-muted: #323232;
-      --cui-color-stroke-intense: #414141;
-      --cui-color-background-default: #1f1f1c;
-      --cui-color-background-muted: #282828;
-      --cui-color-background-panel: #1f1f1c;
-      --cui-color-background-hover: #282828;
-      --cui-color-background-active: #323232;
-      --cui-color-background-secondary: #282828;
-      --cui-color-text-default: #ffffff;
-      --cui-color-text-muted: #b3b6bd;
-      --cui-color-text-disabled: #808080;
-      --cui-color-text-primary: #faff69;
-      --cui-color-text-link: #faff69;
+      --cui-color-stroke-default: #41456e;
+      --cui-color-stroke-muted: #41456e;
+      --cui-color-stroke-intense: #666b90;
+      --cui-color-background-default: #101327;
+      --cui-color-background-muted: #191970;
+      --cui-color-background-panel: #101327;
+      --cui-color-background-hover: #191970;
+      --cui-color-background-active: #262b68;
+      --cui-color-background-secondary: #191970;
+      --cui-color-text-default: #fefeff;
+      --cui-color-text-muted: #c0c0c0;
+      --cui-color-text-disabled: #8a8f9e;
+      --cui-color-text-primary: #89cff0;
+      --cui-color-text-link: #89cff0;
       --cui-color-text-danger: #ffbaba;
       --cui-color-title-default: rgb(97.5% 97.5% 97.5%);
-      --cui-color-title-muted: #b3b6bd;
-      --cui-color-accent: #faff69;
-      --cui-color-outline: #faff69;
+      --cui-color-title-muted: #c0c0c0;
+      --cui-color-accent: #89cff0;
+      --cui-color-outline: #89cff0;
       --cui-color-shadow: rgb(8.2353% 8.2353% 8.2353% / 0.6);
       --cui-color-accent-success: #4ade80;
       --cui-color-accent-warning: #fbbf24;
@@ -180,8 +210,8 @@
       --cui-color-accent-danger: #f87171;
       --cui-color-accent-user: #a78bfa;
       --cui-radii-sm: 0.375rem;
-      --cui-color-feedback-info-bg: #0d3e9b;
-      --cui-color-feedback-info-fg: #d0dffb;
+      --cui-color-feedback-info-bg: #191970;
+      --cui-color-feedback-info-fg: #89cff0;
       --cui-color-feedback-success-bg: #004206;
       --cui-color-feedback-success-fg: #ccffd0;
       --cui-color-feedback-warning-bg: #7a2d00;
@@ -190,7 +220,7 @@
       --cui-color-feedback-danger-fg: #ffbaba;
       --cui-color-feedback-user-bg: rgb(107 33 168 / 0.3);
       --cui-color-feedback-user-fg: #d8b4fe;
-      --cui-color-text-on-accent: #ffffff;
+      --cui-color-text-on-accent: #010001;
       --avatar-color-1: #1d4ed8;
       --avatar-color-2: #b45309;
       --avatar-color-3: #15803d;
@@ -245,6 +275,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --font-display: 'AIMO Display', Inter, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.aimo-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-synthesis: none;
 }
 
 code {
@@ -909,4 +952,13 @@ body > div:has(+ .modal-frost) {
 .badge-user {
   background-color: var(--cui-color-feedback-user-bg);
   color: var(--cui-color-feedback-user-fg);
+}
+
+.dark .aimo-logo {
+  filter: invert(1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .aimo-logo {
+    filter: invert(1);
+  }
 }
