@@ -41,7 +41,7 @@ function getUserInitials(user?: { name?: string; email?: string } | null): strin
   return '';
 }
 
-export function Sidebar({ user, collapsed, onToggle }: t.SidebarProps) {
+export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps) {
   const localize = useLocalize();
   const pilotEnabled = usePilotMode();
   const router = useRouter();
@@ -79,6 +79,8 @@ export function Sidebar({ user, collapsed, onToggle }: t.SidebarProps) {
   };
 
   const initials = getUserInitials(user);
+  const gatewayLabel = localize('com_nav_gateway');
+  const chatLabel = localize('com_nav_chat');
 
   return (
     <>
@@ -126,6 +128,32 @@ export function Sidebar({ user, collapsed, onToggle }: t.SidebarProps) {
                 <span className="truncate text-sm">{localize(item.labelKey)}</span>
               </Link>
             ))}
+            {navigation.gatewayUrl && (
+              <a
+                href={navigation.gatewayUrl}
+                aria-label={collapsed ? gatewayLabel : undefined}
+                title={collapsed ? gatewayLabel : undefined}
+                className="flex h-8 items-center gap-2.5 overflow-hidden rounded-md px-2.5 text-sm font-normal whitespace-nowrap text-(--cui-color-text-muted) no-underline transition-colors duration-100 hover:bg-(--cui-color-background-hover) hover:text-(--cui-color-text-default)"
+              >
+                <span aria-hidden="true" className="shrink-0">
+                  <Icon name="home" size="sm" />
+                </span>
+                <span className="truncate text-sm">{gatewayLabel}</span>
+              </a>
+            )}
+            {navigation.chatUrl && (
+              <a
+                href={navigation.chatUrl}
+                aria-label={collapsed ? chatLabel : undefined}
+                title={collapsed ? chatLabel : undefined}
+                className="flex h-8 items-center gap-2.5 overflow-hidden rounded-md px-2.5 text-sm font-normal whitespace-nowrap text-(--cui-color-text-muted) no-underline transition-colors duration-100 hover:bg-(--cui-color-background-hover) hover:text-(--cui-color-text-default)"
+              >
+                <span aria-hidden="true" className="shrink-0">
+                  <Icon name="home" size="sm" />
+                </span>
+                <span className="truncate text-sm">{chatLabel}</span>
+              </a>
+            )}
           </div>
         </nav>
 
