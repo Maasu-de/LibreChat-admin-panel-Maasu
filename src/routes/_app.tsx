@@ -7,7 +7,7 @@ import { CommandMenu } from '@/components/CommandMenu';
 import { AccessDenied } from '@/components/shared';
 import { SystemCapabilities } from '@/constants';
 import { Sidebar } from '@/components/Sidebar';
-import { getPilotModeFn, verifyAdminTokenFn } from '@/server';
+import { getNavigationUrlsFn, getPilotModeFn, verifyAdminTokenFn } from '@/server';
 import { Header } from '@/components/Header';
 
 const ROUTE_TITLE_KEYS: Record<string, string> = {
@@ -18,7 +18,6 @@ const ROUTE_TITLE_KEYS: Record<string, string> = {
   '/grants': 'com_grants_title',
   '/help': 'com_help_title',
 };
-
 
 export const Route = createFileRoute('/_app')({
   beforeLoad: async ({ location }) => {
@@ -31,7 +30,8 @@ export const Route = createFileRoute('/_app')({
       });
     }
 
-    return { user: result.user, pilotEnabled: await getPilotModeFn() };
+    const [pilotEnabled, navigation] = await Promise.all([getPilotModeFn(), getNavigationUrlsFn()]);
+    return { user: result.user, pilotEnabled, navigation };
   },
   component: AppLayout,
   errorComponent: AppError,
@@ -39,7 +39,7 @@ export const Route = createFileRoute('/_app')({
 });
 
 function AppLayout() {
-  const { user } = Route.useRouteContext();
+  const { user, navigation } = Route.useRouteContext();
   const { hasCapability, isLoading, isError } = useCapabilities();
   const router = useRouter();
   const localize = useLocalize();
@@ -79,7 +79,12 @@ function AppLayout() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar user={user} collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
+      <Sidebar
+        user={user}
+        navigation={navigation}
+        collapsed={sidebarCollapsed}
+        onToggle={toggleSidebar}
+      />
       <div className="flex min-w-0 flex-1 flex-col">
         <Header title={title} onSearchClick={() => setOpen(true)} />
         <main className="flex min-h-0 flex-1 flex-col overflow-auto">
