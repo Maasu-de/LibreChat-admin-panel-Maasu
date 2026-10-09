@@ -36,7 +36,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'LibreChat Admin Panel',
+        title: 'AIMO Admin Panel',
       },
     ],
     links: [
@@ -46,7 +46,12 @@ export const Route = createRootRoute({
       },
       {
         rel: 'icon',
-        href: `${(import.meta.env.VITE_BASE_PATH || '').replace(/\/$/, '')}/favicon.ico`,
+        href: `${(import.meta.env.VITE_BASE_PATH || '').replace(/\/$/, '')}/logo_small.svg`,
+        type: 'image/svg+xml',
+      },
+      {
+        rel: 'apple-touch-icon',
+        href: `${(import.meta.env.VITE_BASE_PATH || '').replace(/\/$/, '')}/apple-touch-icon.png`,
       },
     ],
   }),
