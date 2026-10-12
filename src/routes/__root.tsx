@@ -12,6 +12,7 @@ import {
   createRootRoute,
 } from '@tanstack/react-router';
 import type { ErrorComponentProps } from '@tanstack/react-router';
+import { BrandControlsTheme } from '../contexts/BrandControlsTheme';
 import { ThemeProvider, useTheme } from '../contexts/ThemeContext';
 import appCss from '../styles.css?url';
 import { useLocalize } from '@/hooks';
@@ -74,9 +75,11 @@ function ThemedApp() {
   const { resolvedTheme } = useTheme();
   return (
     <ClickUIProvider theme={resolvedTheme}>
-      <div className="isolate">
-        <Outlet />
-      </div>
+      <BrandControlsTheme mode={resolvedTheme}>
+        <div className="isolate">
+          <Outlet />
+        </div>
+      </BrandControlsTheme>
     </ClickUIProvider>
   );
 }

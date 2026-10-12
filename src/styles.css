@@ -101,8 +101,9 @@
     --sidebar-background: #191970;
     --sidebar-text: #fefeff;
     --sidebar-text-muted: #d9e1ee;
-    --sidebar-background-hover: #30308a;
+    --sidebar-background-hover: #0115e9;
     --sidebar-background-active: #0115e9;
+    --sidebar-interaction-ink: #fefeff;
     --sidebar-stroke: #525298;
     --sidebar-avatar-background: #eaf5fc;
     --sidebar-avatar-text: #191970;
@@ -122,9 +123,9 @@
     --cui-color-shadow: rgb(0% 0% 0% / 0.1);
     --cui-color-accent-success: #16a34a;
     --cui-color-accent-warning: #d97706;
-    --cui-color-accent-info: #2563eb;
+    --cui-color-accent-info: #0115e9;
     --cui-color-accent-danger: #dc2626;
-    --cui-color-accent-user: #7c3aed;
+    --cui-color-accent-user: #191970;
     --cui-radii-sm: 0.375rem;
     --cui-color-feedback-info-bg: #eaf5fc;
     --cui-color-feedback-info-fg: #0115e9;
@@ -134,14 +135,14 @@
     --cui-color-feedback-warning-fg: #a33c00;
     --cui-color-feedback-danger-bg: #ffdddd;
     --cui-color-feedback-danger-fg: #c10000;
-    --cui-color-feedback-user-bg: #f3e8ff;
-    --cui-color-feedback-user-fg: #6b21a8;
+    --cui-color-feedback-user-bg: #eaf5fc;
+    --cui-color-feedback-user-fg: #191970;
     --cui-color-text-on-accent: #fefeff;
-    --avatar-color-1: #1d4ed8;
-    --avatar-color-2: #b45309;
-    --avatar-color-3: #15803d;
-    --avatar-color-4: #be123c;
-    --avatar-color-5: #6d28d9;
+    --avatar-color-1: #0115e9;
+    --avatar-color-2: #191970;
+    --avatar-color-3: #3d4263;
+    --avatar-color-4: #5e6380;
+    --avatar-color-5: #30308a;
   }
 
   .dark {
@@ -154,8 +155,9 @@
     --sidebar-background: #10133c;
     --sidebar-text: #fefeff;
     --sidebar-text-muted: #c0c0c0;
-    --sidebar-background-hover: #191970;
-    --sidebar-background-active: #262b68;
+    --sidebar-background-hover: #89cff0;
+    --sidebar-background-active: #89cff0;
+    --sidebar-interaction-ink: #010001;
     --sidebar-stroke: #41456e;
     --sidebar-avatar-background: #191970;
     --sidebar-avatar-text: #fefeff;
@@ -168,16 +170,16 @@
     --cui-color-text-primary: #89cff0;
     --cui-color-text-link: #89cff0;
     --cui-color-text-danger: #ffbaba;
-    --cui-color-title-default: rgb(97.5% 97.5% 97.5%);
+    --cui-color-title-default: #fefeff;
     --cui-color-title-muted: #c0c0c0;
     --cui-color-accent: #89cff0;
     --cui-color-outline: #89cff0;
     --cui-color-shadow: rgb(8.2353% 8.2353% 8.2353% / 0.6);
     --cui-color-accent-success: #4ade80;
     --cui-color-accent-warning: #fbbf24;
-    --cui-color-accent-info: #60a5fa;
+    --cui-color-accent-info: #89cff0;
     --cui-color-accent-danger: #f87171;
-    --cui-color-accent-user: #a78bfa;
+    --cui-color-accent-user: #89cff0;
     --cui-radii-sm: 0.375rem;
     --cui-color-feedback-info-bg: #191970;
     --cui-color-feedback-info-fg: #89cff0;
@@ -187,14 +189,14 @@
     --cui-color-feedback-warning-fg: #ffb88f;
     --cui-color-feedback-danger-bg: #610000;
     --cui-color-feedback-danger-fg: #ffbaba;
-    --cui-color-feedback-user-bg: rgb(107 33 168 / 0.3);
-    --cui-color-feedback-user-fg: #d8b4fe;
+    --cui-color-feedback-user-bg: #191970;
+    --cui-color-feedback-user-fg: #89cff0;
     --cui-color-text-on-accent: #010001;
-    --avatar-color-1: #1d4ed8;
-    --avatar-color-2: #b45309;
-    --avatar-color-3: #15803d;
-    --avatar-color-4: #be123c;
-    --avatar-color-5: #6d28d9;
+    --avatar-color-1: #0115e9;
+    --avatar-color-2: #191970;
+    --avatar-color-3: #3d4263;
+    --avatar-color-4: #5e6380;
+    --avatar-color-5: #30308a;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -208,8 +210,9 @@
       --sidebar-background: #10133c;
       --sidebar-text: #fefeff;
       --sidebar-text-muted: #c0c0c0;
-      --sidebar-background-hover: #191970;
-      --sidebar-background-active: #262b68;
+      --sidebar-background-hover: #89cff0;
+      --sidebar-background-active: #89cff0;
+      --sidebar-interaction-ink: #010001;
       --sidebar-stroke: #41456e;
       --sidebar-avatar-background: #191970;
       --sidebar-avatar-text: #fefeff;
@@ -222,16 +225,16 @@
       --cui-color-text-primary: #89cff0;
       --cui-color-text-link: #89cff0;
       --cui-color-text-danger: #ffbaba;
-      --cui-color-title-default: rgb(97.5% 97.5% 97.5%);
+      --cui-color-title-default: #fefeff;
       --cui-color-title-muted: #c0c0c0;
       --cui-color-accent: #89cff0;
       --cui-color-outline: #89cff0;
       --cui-color-shadow: rgb(8.2353% 8.2353% 8.2353% / 0.6);
       --cui-color-accent-success: #4ade80;
       --cui-color-accent-warning: #fbbf24;
-      --cui-color-accent-info: #60a5fa;
+      --cui-color-accent-info: #89cff0;
       --cui-color-accent-danger: #f87171;
-      --cui-color-accent-user: #a78bfa;
+      --cui-color-accent-user: #89cff0;
       --cui-radii-sm: 0.375rem;
       --cui-color-feedback-info-bg: #191970;
       --cui-color-feedback-info-fg: #89cff0;
@@ -241,14 +244,14 @@
       --cui-color-feedback-warning-fg: #ffb88f;
       --cui-color-feedback-danger-bg: #610000;
       --cui-color-feedback-danger-fg: #ffbaba;
-      --cui-color-feedback-user-bg: rgb(107 33 168 / 0.3);
-      --cui-color-feedback-user-fg: #d8b4fe;
+      --cui-color-feedback-user-bg: #191970;
+      --cui-color-feedback-user-fg: #89cff0;
       --cui-color-text-on-accent: #010001;
-      --avatar-color-1: #1d4ed8;
-      --avatar-color-2: #b45309;
-      --avatar-color-3: #15803d;
-      --avatar-color-4: #be123c;
-      --avatar-color-5: #6d28d9;
+      --avatar-color-1: #0115e9;
+      --avatar-color-2: #191970;
+      --avatar-color-3: #3d4263;
+      --avatar-color-4: #5e6380;
+      --avatar-color-5: #30308a;
     }
   }
 }
@@ -366,11 +369,11 @@ code {
   min-height: 36px;
   margin: 0;
   padding: 6px 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   background: transparent;
   color: var(--cui-color-text-default);
   font:
-    400 13px/1.5 Inter,
+    500 14px/1.5 Inter,
     sans-serif !important;
   transition: none;
 }
@@ -487,7 +490,7 @@ code {
 button:not([role='switch']),
 a,
 summary {
-  outline: 1px solid transparent !important;
+  outline: 3px solid transparent !important;
   outline-offset: 2px !important;
 }
 
@@ -674,18 +677,52 @@ textarea:focus-visible {
 }
 
 .config-input {
-  border-radius: var(--cui-radii-sm);
+  min-height: 42px;
+  border-radius: 8px;
   border: 1px solid var(--cui-color-stroke-default);
   background: var(--cui-color-background-default);
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: 1.5;
   color: var(--cui-color-text-default);
   outline: none;
 }
 
 .config-input:focus {
-  border-color: var(--cui-color-stroke-intense);
+  border-color: var(--cui-color-outline);
+}
+
+select.config-input,
+select#user-role {
+  appearance: none;
+  min-height: 42px;
+  padding: 9px 36px 9px 12px;
+  border: 1px solid var(--cui-color-stroke-default);
+  border-radius: 8px;
+  background-color: var(--cui-color-background-panel);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234b5271' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  color: var(--cui-color-text-default);
+  font:
+    600 14px/1.5 Inter,
+    sans-serif;
+  cursor: pointer;
+}
+select.config-input:hover:not(:disabled),
+select#user-role:hover:not(:disabled) {
+  border-color: var(--cui-color-outline);
+  background-color: var(--cui-color-background-hover);
+}
+.dark select.config-input,
+.dark select#user-role {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23c0c0c0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) select.config-input,
+  :root:not(.light) select#user-role {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23c0c0c0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
 }
 
 .config-input:disabled {
@@ -996,13 +1033,13 @@ input[type='number'].config-input::-webkit-outer-spin-button {
   background: #0009;
 }
 .admin-settings-dialog {
-  --settings-border: #d7d7dc;
-  --settings-background: #fff;
-  --settings-text: #171717;
-  --settings-muted: #4c5078;
-  --settings-options-border: #c7c7cf;
-  --settings-option-active: #d9ebfa;
-  --settings-option-active-text: #1c2633;
+  --settings-border: var(--cui-color-stroke-default);
+  --settings-background: var(--cui-color-background-panel);
+  --settings-text: var(--cui-color-text-default);
+  --settings-muted: var(--cui-color-text-muted);
+  --settings-options-border: var(--cui-color-stroke-default);
+  --settings-option-active: var(--cui-color-background-active);
+  --settings-option-active-text: var(--cui-color-text-default);
   position: fixed;
   top: 50%;
   left: 50%;
@@ -1024,13 +1061,13 @@ input[type='number'].config-input::-webkit-outer-spin-button {
   font-family: Inter, Arial, sans-serif;
 }
 .admin-settings-dialog.is-dark {
-  --settings-border: #363635;
-  --settings-background: #1f1f1d;
-  --settings-text: #f7f7f7;
-  --settings-muted: #bcbcbc;
-  --settings-options-border: #5c4679;
-  --settings-option-active: #3b226a;
-  --settings-option-active-text: #fff;
+  --settings-border: #41456e;
+  --settings-background: #101327;
+  --settings-text: #fefeff;
+  --settings-muted: #c0c0c0;
+  --settings-options-border: #41456e;
+  --settings-option-active: #262b68;
+  --settings-option-active-text: #fefeff;
 }
 .admin-settings-title {
   margin: 0 36px 18px 0;
@@ -1187,7 +1224,79 @@ body > div:has(+ .modal-frost) {
   --sidebar-gutter: 8px;
   --sidebar-icon-inset: 15.25px;
 }
-.admin-sidebar .aimo-logo,
+.admin-sidebar-brand {
+  position: relative;
+  display: block;
+  flex: none;
+  height: 96px;
+  border-bottom: 1px solid var(--sidebar-stroke);
+  color: var(--sidebar-text);
+  text-decoration: none;
+  cursor: pointer;
+}
+.admin-sidebar-brand:focus-visible {
+  outline: 2px solid var(--sidebar-interaction-ink);
+  outline-offset: -3px;
+}
+.admin-sidebar-brand:hover .admin-sidebar-title {
+  color: var(--sidebar-interaction-ink);
+}
+.admin-sidebar-logo {
+  position: absolute;
+  top: calc(50% - 12.8px);
+  left: 17px;
+  display: block;
+  height: 25.6px;
+  background: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: left center;
+  mask-size: contain;
+}
+.admin-sidebar-logo-long {
+  width: 120px;
+  mask-image: url('./assets/logo.svg');
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 180ms ease 200ms,
+    visibility 0s linear 200ms;
+}
+.admin-sidebar-logo-small {
+  width: 29.92px;
+  mask-image: url('./assets/logo_small.svg');
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 180ms ease 200ms,
+    visibility 0s linear 380ms;
+}
+.admin-sidebar-title {
+  position: absolute;
+  top: calc(50% + 16.5px);
+  left: 17px;
+  color: var(--sidebar-text);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+  visibility: visible;
+  transition: visibility 0s linear 200ms;
+}
+.admin-sidebar.is-collapsed .admin-sidebar-logo-long {
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
+}
+.admin-sidebar.is-collapsed .admin-sidebar-title {
+  visibility: hidden;
+  transition-delay: 0s;
+}
+.admin-sidebar.is-collapsed .admin-sidebar-logo-small {
+  opacity: 1;
+  visibility: visible;
+  transition: none;
+}
 .dark .aimo-logo {
   filter: invert(1);
 }
@@ -1199,31 +1308,53 @@ body > div:has(+ .modal-frost) {
   width: 17.5px;
   height: 17.5px;
 }
-.admin-sidebar nav a {
+.admin-sidebar nav svg [stroke] {
+  stroke: currentColor;
+  stroke-width: 1.8px;
+}
+.admin-sidebar nav svg [fill]:not([fill='none']) {
+  fill: currentColor;
+}
+.admin-sidebar nav a.admin-sidebar-link {
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: 12px;
+  height: 36px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
   padding-left: var(--sidebar-icon-inset);
   padding-right: 0;
+  border-radius: 6px;
+  color: var(--sidebar-text-muted);
+  font-family: Inter, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  text-decoration: none;
+  transition:
+    background-color 100ms ease,
+    color 100ms ease;
+}
+.admin-sidebar nav a.admin-sidebar-link:hover,
+.admin-sidebar nav a.admin-sidebar-link[aria-current='page'] {
+  background: var(--sidebar-background-active);
+  color: var(--sidebar-interaction-ink);
+}
+.admin-sidebar nav a.admin-sidebar-link:focus-visible {
+  outline: 3px solid var(--cui-color-outline);
+  outline-offset: 3px;
 }
 .admin-sidebar nav a > span:last-child,
 .admin-sidebar .sidebar-user-details {
   opacity: 1;
   visibility: visible;
-  transition:
-    opacity 120ms ease 100ms,
-    visibility 0s linear 100ms;
 }
 .admin-sidebar.is-collapsed nav a > span:last-child,
 .admin-sidebar.is-collapsed .sidebar-user-details {
   opacity: 0;
   visibility: hidden;
-  transition:
-    opacity 60ms ease,
-    visibility 0s linear 60ms;
-}
-.admin-sidebar.is-collapsed nav a > span:last-child {
-  transform: translateX(12px);
-}
-.admin-sidebar.is-collapsed .sidebar-user-details {
-  transform: translateX(8px);
 }
 @media (prefers-color-scheme: dark) {
   :root:not(.light) .aimo-logo {

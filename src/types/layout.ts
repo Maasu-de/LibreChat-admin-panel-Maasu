@@ -8,7 +8,7 @@ export interface SidebarProps {
   } | null;
   collapsed: boolean;
   onToggle: () => void;
-  navigation: { gatewayUrl?: string; chatUrl?: string };
+  navigation: { gatewayUrl?: string; governanceAdminUrl?: string; chatUrl?: string };
 }
 
 export interface NavItem {

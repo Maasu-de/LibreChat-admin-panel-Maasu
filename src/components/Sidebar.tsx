@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Icon, Dropdown } from '@clickhouse/click-ui';
+import { Home, Shield } from 'lucide-react';
 import { Link, useRouter } from '@tanstack/react-router';
 import type * as t from '@/types';
 import { useStripAriaExpanded, useCapabilities, useLocalize, usePilotMode } from '@/hooks';
-import aimoLogo from '@/assets/logo.svg';
-import aimoLogoSmall from '@/assets/logo_small.svg';
 import { SettingsDialog } from './SettingsDialog';
 import { SystemCapabilities } from '@/constants';
 import { getInitials, cn } from '@/utils';
@@ -81,6 +80,7 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
   const initials = getUserInitials(user);
   const gatewayLabel = localize('com_nav_gateway');
   const chatLabel = localize('com_nav_chat');
+  const governanceAdminLabel = localize('com_nav_governance_admin_panel');
 
   return (
     <>
@@ -91,20 +91,15 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
           collapsed ? 'is-collapsed w-16' : 'w-62',
         )}
       >
-        <div className="flex h-20 shrink-0 items-center px-2">
-          <div className="flex items-center gap-3 overflow-hidden px-2.25">
-            <img
-              src={collapsed ? aimoLogoSmall : aimoLogo}
-              alt={localize('com_a11y_logo_alt')}
-              className={cn('aimo-logo h-[25.6px] shrink-0', collapsed ? 'w-[29.92px]' : 'w-30')}
-            />
-            {!collapsed && (
-              <span className="aimo-display truncate text-sm text-(--sidebar-text)">
-                {localize('com_auth_title')}
-              </span>
-            )}
-          </div>
-        </div>
+        <Link
+          to="/"
+          className="admin-sidebar-brand"
+          aria-label={`Chat Admin Panel ${localize('com_nav_dashboard')}`}
+        >
+          <span className="admin-sidebar-logo admin-sidebar-logo-long" aria-hidden="true" />
+          <span className="admin-sidebar-logo admin-sidebar-logo-small" aria-hidden="true" />
+          <span className="admin-sidebar-title">Chat Admin Panel</span>
+        </Link>
 
         <nav className="flex-1 overflow-y-auto pt-4 pb-2" role="navigation">
           <div className="flex flex-col gap-1">
@@ -115,12 +110,7 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
                 aria-current={isActive(item.path) ? 'page' : undefined}
                 aria-label={collapsed ? localize(item.labelKey) : undefined}
                 title={collapsed ? localize(item.labelKey) : undefined}
-                className={cn(
-                  'flex h-9 items-center gap-3 overflow-hidden rounded-md px-2.5 text-sm font-medium whitespace-nowrap no-underline transition-colors duration-100',
-                  isActive(item.path)
-                    ? 'bg-(--sidebar-background-active) text-(--sidebar-text)'
-                    : 'text-(--sidebar-text-muted) hover:bg-(--sidebar-background-hover) hover:text-(--sidebar-text)',
-                )}
+                className="admin-sidebar-link"
               >
                 <span aria-hidden="true" className="shrink-0">
                   <Icon name={item.icon} size="sm" />
@@ -128,31 +118,44 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
                 <span className="truncate text-sm">{localize(item.labelKey)}</span>
               </Link>
             ))}
-            {navigation.gatewayUrl && (
-              <a
-                href={navigation.gatewayUrl}
-                aria-label={collapsed ? gatewayLabel : undefined}
-                title={collapsed ? gatewayLabel : undefined}
-                className="flex h-9 items-center gap-3 overflow-hidden rounded-md px-2.5 text-sm font-medium whitespace-nowrap text-(--sidebar-text-muted) no-underline transition-colors duration-100 hover:bg-(--sidebar-background-hover) hover:text-(--sidebar-text)"
-              >
-                <span aria-hidden="true" className="shrink-0">
-                  <Icon name="home" size="sm" />
-                </span>
-                <span className="truncate text-sm">{gatewayLabel}</span>
-              </a>
-            )}
-            {navigation.chatUrl && (
-              <a
-                href={navigation.chatUrl}
-                aria-label={collapsed ? chatLabel : undefined}
-                title={collapsed ? chatLabel : undefined}
-                className="flex h-9 items-center gap-3 overflow-hidden rounded-md px-2.5 text-sm font-medium whitespace-nowrap text-(--sidebar-text-muted) no-underline transition-colors duration-100 hover:bg-(--sidebar-background-hover) hover:text-(--sidebar-text)"
-              >
-                <span aria-hidden="true" className="shrink-0">
-                  <Icon name="home" size="sm" />
-                </span>
-                <span className="truncate text-sm">{chatLabel}</span>
-              </a>
+            {(navigation.chatUrl || navigation.governanceAdminUrl || navigation.gatewayUrl) && (
+              <div className="mt-3 flex flex-col gap-1 border-t border-(--sidebar-stroke) pt-3">
+                {navigation.chatUrl && (
+                  <a
+                    href={navigation.chatUrl}
+                    aria-label={collapsed ? chatLabel : undefined}
+                    title={collapsed ? chatLabel : undefined}
+                    className="admin-sidebar-link"
+                  >
+                    <span aria-hidden="true" className="shrink-0">
+                      <Icon name="chat" size="sm" />
+                    </span>
+                    <span className="truncate text-sm">{chatLabel}</span>
+                  </a>
+                )}
+                {navigation.governanceAdminUrl && (
+                  <a
+                    href={navigation.governanceAdminUrl}
+                    aria-label={collapsed ? governanceAdminLabel : undefined}
+                    title={collapsed ? governanceAdminLabel : undefined}
+                    className="admin-sidebar-link"
+                  >
+                    <Shield aria-hidden="true" className="shrink-0" />
+                    <span className="truncate text-sm">{governanceAdminLabel}</span>
+                  </a>
+                )}
+                {navigation.gatewayUrl && (
+                  <a
+                    href={navigation.gatewayUrl}
+                    aria-label={collapsed ? gatewayLabel : undefined}
+                    title={collapsed ? gatewayLabel : undefined}
+                    className="admin-sidebar-link"
+                  >
+                    <Home aria-hidden="true" className="shrink-0" />
+                    <span className="truncate text-sm">{gatewayLabel}</span>
+                  </a>
+                )}
+              </div>
             )}
           </div>
         </nav>
@@ -241,7 +244,7 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
           onClick={onToggle}
           aria-label={localize(collapsed ? 'com_nav_expand_sidebar' : 'com_nav_collapse_sidebar')}
           title={localize(collapsed ? 'com_nav_expand_sidebar' : 'com_nav_collapse_sidebar')}
-          className="flex h-12 w-full shrink-0 cursor-pointer items-center justify-center border-t border-(--sidebar-stroke) bg-transparent text-(--sidebar-text-muted) transition-colors hover:bg-(--sidebar-background-hover) hover:text-(--sidebar-text)"
+          className="flex h-12 w-full shrink-0 cursor-pointer items-center justify-center border-t border-(--sidebar-stroke) bg-transparent text-(--sidebar-text-muted) transition-colors hover:bg-(--sidebar-background-hover) hover:text-(--sidebar-interaction-ink)"
         >
           <Icon name={collapsed ? 'slide-in' : 'slide-out'} size="sm" />
         </button>
