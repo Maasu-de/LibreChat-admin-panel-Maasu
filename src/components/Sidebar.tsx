@@ -101,8 +101,8 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
           <span className="admin-sidebar-title">Chat Admin Panel</span>
         </Link>
 
-        <nav className="flex-1 overflow-y-auto pt-4 pb-2" role="navigation">
-          <div className="flex flex-col gap-1">
+        <nav className="flex min-h-0 flex-1 flex-col pb-2" role="navigation">
+          <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto pt-4">
             {visibleItems.map((item) => (
               <Link
                 key={item.path}
@@ -118,46 +118,46 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
                 <span className="truncate text-sm">{localize(item.labelKey)}</span>
               </Link>
             ))}
-            {(navigation.chatUrl || navigation.governanceAdminUrl || navigation.gatewayUrl) && (
-              <div className="mt-3 flex flex-col gap-1 border-t border-(--sidebar-stroke) pt-3">
-                {navigation.chatUrl && (
-                  <a
-                    href={navigation.chatUrl}
-                    aria-label={collapsed ? chatLabel : undefined}
-                    title={collapsed ? chatLabel : undefined}
-                    className="admin-sidebar-link"
-                  >
-                    <span aria-hidden="true" className="shrink-0">
-                      <Icon name="chat" size="sm" />
-                    </span>
-                    <span className="truncate text-sm">{chatLabel}</span>
-                  </a>
-                )}
-                {navigation.governanceAdminUrl && (
-                  <a
-                    href={navigation.governanceAdminUrl}
-                    aria-label={collapsed ? governanceAdminLabel : undefined}
-                    title={collapsed ? governanceAdminLabel : undefined}
-                    className="admin-sidebar-link"
-                  >
-                    <Shield aria-hidden="true" className="shrink-0" />
-                    <span className="truncate text-sm">{governanceAdminLabel}</span>
-                  </a>
-                )}
-                {navigation.gatewayUrl && (
-                  <a
-                    href={navigation.gatewayUrl}
-                    aria-label={collapsed ? gatewayLabel : undefined}
-                    title={collapsed ? gatewayLabel : undefined}
-                    className="admin-sidebar-link"
-                  >
-                    <Home aria-hidden="true" className="shrink-0" />
-                    <span className="truncate text-sm">{gatewayLabel}</span>
-                  </a>
-                )}
-              </div>
-            )}
           </div>
+          {(navigation.chatUrl || navigation.governanceAdminUrl || navigation.gatewayUrl) && (
+            <div className="flex shrink-0 flex-col gap-1 border-t border-(--sidebar-stroke) pt-3">
+              {navigation.chatUrl && (
+                <a
+                  href={navigation.chatUrl}
+                  aria-label={collapsed ? chatLabel : undefined}
+                  title={collapsed ? chatLabel : undefined}
+                  className="admin-sidebar-link"
+                >
+                  <span aria-hidden="true" className="shrink-0">
+                    <Icon name="chat" size="sm" />
+                  </span>
+                  <span className="truncate text-sm">{chatLabel}</span>
+                </a>
+              )}
+              {navigation.governanceAdminUrl && (
+                <a
+                  href={navigation.governanceAdminUrl}
+                  aria-label={collapsed ? governanceAdminLabel : undefined}
+                  title={collapsed ? governanceAdminLabel : undefined}
+                  className="admin-sidebar-link"
+                >
+                  <Shield aria-hidden="true" className="shrink-0" />
+                  <span className="truncate text-sm">{governanceAdminLabel}</span>
+                </a>
+              )}
+              {navigation.gatewayUrl && (
+                <a
+                  href={navigation.gatewayUrl}
+                  aria-label={collapsed ? gatewayLabel : undefined}
+                  title={collapsed ? gatewayLabel : undefined}
+                  className="admin-sidebar-link"
+                >
+                  <Home aria-hidden="true" className="shrink-0" />
+                  <span className="truncate text-sm">{gatewayLabel}</span>
+                </a>
+              )}
+            </div>
+          )}
         </nav>
 
         {initials && (
