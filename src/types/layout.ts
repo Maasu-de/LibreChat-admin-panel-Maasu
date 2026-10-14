@@ -20,7 +20,6 @@ export interface NavItem {
 
 export interface HeaderProps {
   titleKey: string;
-  descriptionKey: string;
   onSearchClick?: () => void;
   children?: ReactNode;
 }

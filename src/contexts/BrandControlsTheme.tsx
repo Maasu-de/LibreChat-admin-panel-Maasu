@@ -16,14 +16,14 @@ function brandControlsTheme(theme: ClickUITheme, mode: 'light' | 'dark'): ClickU
   const accentHover = dark ? '#b8e4f8' : '#191970';
   const accentInk = dark ? '#010001' : '#fefeff';
   const danger = dark ? '#ffaaaa' : '#8f2525';
-  const surface = dark ? '#101327' : '#fefeff';
+  const surface = dark ? '#0d203d' : '#fefeff';
   const surfaceHover = dark ? '#191970' : '#eaf5fc';
   const dangerBackground = `color-mix(in srgb, ${danger} 8%, ${surface})`;
   const dangerBackgroundHover = `color-mix(in srgb, ${danger} 14%, ${surface})`;
   const dangerBackgroundActive = `color-mix(in srgb, ${danger} 20%, ${surface})`;
-  const line = dark ? '#41456e' : '#c0c0c0';
+  const line = dark ? '#3d607d' : '#c0c0c0';
   const text = dark ? '#fefeff' : '#010001';
-  const muted = dark ? '#c0c0c0' : '#4b5271';
+  const muted = dark ? '#c0c0c0' : '#3d607d';
   const statusBackground = {
     success: dark ? '#19392b' : '#e4f5ec',
     warning: dark ? '#433819' : '#fff4d6',

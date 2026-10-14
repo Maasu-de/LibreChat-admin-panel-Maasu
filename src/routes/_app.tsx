@@ -10,13 +10,13 @@ import { Sidebar } from '@/components/Sidebar';
 import { getNavigationUrlsFn, getPilotModeFn, verifyAdminTokenFn } from '@/server';
 import { Header } from '@/components/Header';
 
-const PAGE_HEADINGS: Record<string, { titleKey: string; descriptionKey: string }> = {
-  '/': { titleKey: 'com_dash_title', descriptionKey: 'com_dash_subtitle' },
-  '/configuration': { titleKey: 'com_config_title', descriptionKey: 'com_config_subtitle' },
-  '/users': { titleKey: 'com_users_title', descriptionKey: 'com_users_subtitle' },
-  '/access': { titleKey: 'com_access_title', descriptionKey: 'com_access_subtitle' },
-  '/grants': { titleKey: 'com_grants_title', descriptionKey: 'com_grants_subtitle' },
-  '/help': { titleKey: 'com_help_title', descriptionKey: 'com_help_subtitle' },
+const PAGE_HEADINGS: Record<string, { titleKey: string }> = {
+  '/': { titleKey: 'com_dash_title' },
+  '/configuration': { titleKey: 'com_config_title' },
+  '/users': { titleKey: 'com_users_title' },
+  '/access': { titleKey: 'com_access_title' },
+  '/grants': { titleKey: 'com_grants_title' },
+  '/help': { titleKey: 'com_help_title' },
 };
 
 export const Route = createFileRoute('/_app')({
@@ -84,11 +84,7 @@ function AppLayout() {
         onToggle={toggleSidebar}
       />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Header
-          titleKey={heading.titleKey}
-          descriptionKey={heading.descriptionKey}
-          onSearchClick={() => setOpen(true)}
-        />
+        <Header titleKey={heading.titleKey} onSearchClick={() => setOpen(true)} />
         <main className="flex min-h-0 flex-1 flex-col overflow-auto">
           <Outlet />
         </main>

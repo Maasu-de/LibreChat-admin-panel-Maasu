@@ -95,30 +95,30 @@
     color-scheme: light;
     --cui-color-stroke-default: #c0c0c0;
     --cui-color-stroke-muted: #c0c0c0;
-    --cui-color-stroke-intense: #989caf;
+    --cui-color-stroke-intense: #8a9eae;
     --cui-color-background-default: #f5f8ff;
     --cui-color-background-muted: #eaf5fc;
     --cui-color-background-panel: #fefeff;
     --sidebar-background: #191970;
     --sidebar-text: #fefeff;
-    --sidebar-text-muted: #d9e1ee;
+    --sidebar-text-muted: #d9eefa;
     --sidebar-background-hover: #0115e9;
     --sidebar-background-active: #0115e9;
     --sidebar-interaction-ink: #fefeff;
-    --sidebar-stroke: #525298;
+    --sidebar-stroke: #5d9bc4;
     --sidebar-avatar-background: #eaf5fc;
     --sidebar-avatar-text: #191970;
     --cui-color-background-hover: #eaf5fc;
     --cui-color-background-active: #eaf5fc;
     --cui-color-background-secondary: #eaf5fc;
     --cui-color-text-default: #010001;
-    --cui-color-text-muted: #4b5271;
-    --cui-color-text-disabled: #7c8295;
+    --cui-color-text-muted: #3d607d;
+    --cui-color-text-disabled: #7e96a7;
     --cui-color-text-primary: #0115e9;
     --cui-color-text-link: #0115e9;
     --cui-color-text-danger: #8f2525;
     --cui-color-title-default: #010001;
-    --cui-color-title-muted: #4b5271;
+    --cui-color-title-muted: #3d607d;
     --cui-color-accent: #0115e9;
     --cui-color-outline: #0115e9;
     --cui-color-shadow: #19197014;
@@ -142,26 +142,26 @@
     --cui-color-text-on-danger: #fefeff;
     --avatar-color-1: #0115e9;
     --avatar-color-2: #191970;
-    --avatar-color-3: #3d4263;
-    --avatar-color-4: #5e6380;
-    --avatar-color-5: #30308a;
+    --avatar-color-3: #0e3361;
+    --avatar-color-4: #164777;
+    --avatar-color-5: #3d607d;
   }
 
   .dark {
     color-scheme: dark;
-    --cui-color-stroke-default: #41456e;
-    --cui-color-stroke-muted: #41456e;
-    --cui-color-stroke-intense: #666b90;
+    --cui-color-stroke-default: #3d607d;
+    --cui-color-stroke-muted: #3d607d;
+    --cui-color-stroke-intense: #5d83a0;
     --cui-color-background-default: #010001;
     --cui-color-background-muted: #191970;
-    --cui-color-background-panel: #101327;
-    --sidebar-background: #10133c;
+    --cui-color-background-panel: #0d203d;
+    --sidebar-background: #0b2349;
     --sidebar-text: #fefeff;
     --sidebar-text-muted: #c0c0c0;
     --sidebar-background-hover: #89cff0;
     --sidebar-background-active: #89cff0;
     --sidebar-interaction-ink: #010001;
-    --sidebar-stroke: #41456e;
+    --sidebar-stroke: #3d607d;
     --sidebar-avatar-background: #191970;
     --sidebar-avatar-text: #fefeff;
     --cui-color-background-hover: #191970;
@@ -198,27 +198,27 @@
     --cui-color-text-on-danger: #010001;
     --avatar-color-1: #0115e9;
     --avatar-color-2: #191970;
-    --avatar-color-3: #3d4263;
-    --avatar-color-4: #5e6380;
-    --avatar-color-5: #30308a;
+    --avatar-color-3: #0e3361;
+    --avatar-color-4: #164777;
+    --avatar-color-5: #3d607d;
   }
 
   @media (prefers-color-scheme: dark) {
     :root:not(.light) {
       color-scheme: dark;
-      --cui-color-stroke-default: #41456e;
-      --cui-color-stroke-muted: #41456e;
-      --cui-color-stroke-intense: #666b90;
+      --cui-color-stroke-default: #3d607d;
+      --cui-color-stroke-muted: #3d607d;
+      --cui-color-stroke-intense: #5d83a0;
       --cui-color-background-default: #010001;
       --cui-color-background-muted: #191970;
-      --cui-color-background-panel: #101327;
-      --sidebar-background: #10133c;
+      --cui-color-background-panel: #0d203d;
+      --sidebar-background: #0b2349;
       --sidebar-text: #fefeff;
       --sidebar-text-muted: #c0c0c0;
       --sidebar-background-hover: #89cff0;
       --sidebar-background-active: #89cff0;
       --sidebar-interaction-ink: #010001;
-      --sidebar-stroke: #41456e;
+      --sidebar-stroke: #3d607d;
       --sidebar-avatar-background: #191970;
       --sidebar-avatar-text: #fefeff;
       --cui-color-background-hover: #191970;
@@ -255,9 +255,9 @@
       --cui-color-text-on-danger: #010001;
       --avatar-color-1: #0115e9;
       --avatar-color-2: #191970;
-      --avatar-color-3: #3d4263;
-      --avatar-color-4: #5e6380;
-      --avatar-color-5: #30308a;
+      --avatar-color-3: #0e3361;
+      --avatar-color-4: #164777;
+      --avatar-color-5: #3d607d;
     }
   }
 }
@@ -1215,23 +1215,20 @@ body > div:has(+ .modal-frost) {
 }
 .admin-header-title {
   margin: 0;
-  color: var(--cui-color-title-default);
+  color: var(--cui-color-text-primary);
   font-family: Inter, Arial, sans-serif;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 1.25;
-}
-.admin-header-description {
-  margin: 2px 0 0;
-  color: var(--cui-color-text-muted);
-  font-size: 14px;
-  line-height: 1.35;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 .admin-content-header {
   width: 100%;
   max-width: 1440px;
   margin-inline: auto;
-  padding: 12px clamp(24px, 4vw, 64px);
+  min-height: 95px;
+  padding: 18px clamp(24px, 4vw, 64px);
 }
 @media (max-width: 800px) {
   .admin-content-page {

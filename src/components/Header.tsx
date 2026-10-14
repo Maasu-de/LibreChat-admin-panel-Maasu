@@ -1,7 +1,7 @@
 import type * as t from '@/types';
 import { useLocalize } from '@/hooks';
 
-export function Header({ titleKey, descriptionKey, onSearchClick, children }: t.HeaderProps) {
+export function Header({ titleKey, onSearchClick, children }: t.HeaderProps) {
   const localize = useLocalize();
   const isMac =
     typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
@@ -12,7 +12,6 @@ export function Header({ titleKey, descriptionKey, onSearchClick, children }: t.
       <div className="admin-content-header flex flex-wrap items-center gap-3">
         <div className="min-w-40 flex-1">
           <h1 className="admin-header-title">{localize(titleKey)}</h1>
-          <p className="admin-header-description">{localize(descriptionKey)}</p>
         </div>
         <div className="flex flex-wrap items-center justify-end gap-2">
           {children}
