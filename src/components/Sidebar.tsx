@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Icon, Dropdown } from '@clickhouse/click-ui';
-import { Home, Shield } from 'lucide-react';
+import { Home, LayoutGrid, Shield } from 'lucide-react';
 import { Link, useRouter } from '@tanstack/react-router';
 import type * as t from '@/types';
 import { useStripAriaExpanded, useCapabilities, useLocalize, usePilotMode } from '@/hooks';
@@ -113,7 +113,11 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
                 className="admin-sidebar-link"
               >
                 <span aria-hidden="true" className="shrink-0">
-                  <Icon name={item.icon} size="sm" />
+                  {item.path === '/' ? (
+                    <LayoutGrid strokeWidth={1.8} />
+                  ) : (
+                    <Icon name={item.icon} size="sm" />
+                  )}
                 </span>
                 <span className="truncate text-sm">{localize(item.labelKey)}</span>
               </Link>

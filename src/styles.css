@@ -1213,6 +1213,11 @@ body > div:has(+ .modal-frost) {
   margin-inline: auto;
   padding: 48px clamp(24px, 4vw, 64px) 64px;
 }
+.admin-content-page section > h3,
+.admin-content-page [data-top-level-accordion] [data-section-id] > button > span > span {
+  font-size: calc(18px + 2pt);
+  line-height: 1.25;
+}
 .admin-header-title {
   margin: 0;
   color: var(--cui-color-text-primary);
@@ -1222,6 +1227,14 @@ body > div:has(+ .modal-frost) {
   line-height: 1.25;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+.dark .admin-header-title {
+  color: #fefeff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .admin-header-title {
+    color: #fefeff;
+  }
 }
 .admin-content-header {
   width: 100%;
@@ -1257,7 +1270,7 @@ body > div:has(+ .modal-frost) {
   outline-offset: -3px;
 }
 .admin-sidebar-brand:hover .admin-sidebar-title {
-  color: var(--sidebar-interaction-ink);
+  color: var(--sidebar-text);
 }
 .admin-sidebar-logo {
   position: absolute;
