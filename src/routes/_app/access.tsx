@@ -15,7 +15,7 @@ function isValidTab(value?: string): value is Tab {
 }
 
 export const Route = createFileRoute('/_app/access')({
-  head: () => ({ meta: [{ title: 'AIMO · Groups & Membership · Access management' }] }),
+  head: () => ({ meta: [{ title: 'AIMO · Admin Panel · Groups & Membership' }] }),
   validateSearch: (search: Record<string, unknown>): AccessSearch => ({
     tab: typeof search.tab === 'string' ? search.tab : undefined,
   }),

@@ -2,6 +2,6 @@ import { createFileRoute } from '@tanstack/react-router';
 import { HelpPage } from '@/components/help/HelpPage';
 
 export const Route = createFileRoute('/_app/help')({
-  head: () => ({ meta: [{ title: 'AIMO · Groups & Membership · Help' }] }),
+  head: () => ({ meta: [{ title: 'AIMO · Admin Panel · Help' }] }),
   component: HelpPage,
 });

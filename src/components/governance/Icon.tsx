@@ -39,6 +39,14 @@ export function GovernanceIcon({ name, ...props }: t.GovernanceIconProps) {
     ),
     shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />,
 
+    'term-list': (
+      <>
+        <circle cx="4" cy="5" r="1" fill="currentColor" stroke="none" />
+        <circle cx="4" cy="12" r="1" fill="currentColor" stroke="none" />
+        <circle cx="4" cy="19" r="1" fill="currentColor" stroke="none" />
+        <path d="M9 5h12M9 12h12M9 19h12" />
+      </>
+    ),
     usage: (
       <>
         <path d="M3 3v18h18" />

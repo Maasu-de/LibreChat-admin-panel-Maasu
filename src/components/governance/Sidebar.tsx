@@ -11,10 +11,11 @@ import './sidebar.css';
 
 const primaryLinks = [
   ['com_nav_dashboard', '', 'overview'],
-  ['com_nav_cost_usage', '/finance', 'usage'],
   ['com_nav_policy_configurator', '/policies', 'shield'],
+  ['com_nav_confidential_terms', '/termlists', 'term-list'],
   ['com_groups_membership', '/access', 'users'],
   ['com_nav_governance_audit', '/audit', 'audit'],
+  ['com_nav_cost_usage', '/finance', 'usage'],
 ] as const;
 
 export function GovernanceSidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps) {

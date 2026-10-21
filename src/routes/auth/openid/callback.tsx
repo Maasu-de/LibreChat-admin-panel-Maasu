@@ -9,7 +9,7 @@ const searchSchema = z.object({
 });
 
 export const Route = createFileRoute('/auth/openid/callback')({
-  head: () => ({ meta: [{ title: 'AIMO · Groups & Membership · Signing in' }] }),
+  head: () => ({ meta: [{ title: 'AIMO · Admin Panel · Signing in' }] }),
   validateSearch: searchSchema,
   loaderDeps: ({ search }) => ({ code: search.code }),
   loader: async ({ deps: { code } }) => {

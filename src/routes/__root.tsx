@@ -38,7 +38,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'AIMO · Groups & Membership',
+        title: 'AIMO · Admin Panel',
       },
     ],
     links: [

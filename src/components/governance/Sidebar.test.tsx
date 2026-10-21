@@ -76,17 +76,18 @@ async function renderSidebar() {
 }
 
 describe('Governance sidebar in the group-management fork', () => {
-  it('matches the Governance navigation order and targets, retaining the local Groups route and base path', async () => {
+  it('matches the Admin Panel navigation order and targets, retaining the local Groups route and base path', async () => {
     await renderSidebar();
     const links = within(screen.getByRole('navigation', { name: 'Administration' })).getAllByRole(
       'link',
     );
     expect(links.map((link) => [link.textContent, link.getAttribute('href')])).toEqual([
       ['Overview', 'https://governance.example/admin'],
-      ['Cost & Usage', 'https://governance.example/admin/finance'],
-      ['Policy Configurator', 'https://governance.example/admin/policies'],
+      ['Governance Policy', 'https://governance.example/admin/policies'],
+      ['Confidential Terms', 'https://governance.example/admin/termlists'],
       ['Groups & Membership', '/groups-admin/access?tab=groups'],
       ['Audit Log', 'https://governance.example/admin/audit'],
+      ['Cost & Usage', 'https://governance.example/admin/finance'],
       ['Chat', 'https://governance.example/api/auth/open-chat'],
       ['Homepage', 'https://governance.example'],
     ]);
@@ -94,14 +95,14 @@ describe('Governance sidebar in the group-management fork', () => {
       links[3],
     ]);
     expect(links[3]).toHaveClass('active');
-    expect(screen.getByRole('link', { name: 'Governance Admin Panel' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Admin Panel' })).toHaveAttribute(
       'href',
       'https://governance.example/admin',
     );
     expect(screen.queryByRole('link', { name: 'Chat Admin' })).not.toBeInTheDocument();
   });
 
-  it('starts expanded and persists collapse using Governance Admin’s preference', async () => {
+  it('starts expanded and persists collapse using the Admin Panel’s preference', async () => {
     await renderSidebar();
     fireEvent.click(screen.getByRole('button', { name: 'Collapse sidebar' }));
     expect(localStorage.getItem('gateway-admin:sidebar-collapsed')).toBe('true');

@@ -13,7 +13,7 @@ function isValidTab(value?: string): value is Tab {
 }
 
 export const Route = createFileRoute('/_app/grants')({
-  head: () => ({ meta: [{ title: 'AIMO · Groups & Membership · System grants' }] }),
+  head: () => ({ meta: [{ title: 'AIMO · Admin Panel · System grants' }] }),
   validateSearch: (search: Record<string, unknown>): GrantsSearch => ({
     tab: typeof search.tab === 'string' ? search.tab : undefined,
     entryId: typeof search.entryId === 'string' ? search.entryId : undefined,

@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { DashboardPage } from '@/components/dashboard';
 
 export const Route = createFileRoute('/_app/')({
-  head: () => ({ meta: [{ title: 'AIMO · Groups & Membership · Overview' }] }),
+  head: () => ({ meta: [{ title: 'AIMO · Admin Panel · Overview' }] }),
   component: DashboardRoute,
 });
 
