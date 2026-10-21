@@ -50,6 +50,9 @@ export const adminLoginFn = createServerFn({ method: 'POST' })
     }),
   )
   .handler(async ({ data }) => {
+    if (process.env.GOVERNANCE_PILOT_ENABLED === 'true') {
+      return { error: true, message: 'OIDC administrator session required' };
+    }
     try {
       const response = await fetch(`${getServerApiUrl()}/api/admin/login/local`, {
         method: 'POST',
@@ -178,6 +181,11 @@ export const verifyAdminTokenFn = createServerFn({ method: 'GET' }).handler(asyn
   try {
     const session = await useAppSession();
     const { token, user, lastVerified, lastActivity, refreshToken, tokenProvider } = session.data;
+
+    if (process.env.GOVERNANCE_PILOT_ENABLED === 'true' && tokenProvider !== 'openid') {
+      await clearSession(session);
+      return { valid: false, error: 'OIDC administrator session required' };
+    }
 
     if (!token || !user) {
       return { valid: false, error: 'No session found' };

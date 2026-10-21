@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore, useEffect } from 'react';
 import { Icon } from '@clickhouse/click-ui';
 import { createFileRoute, Outlet, useRouter, Link, redirect } from '@tanstack/react-router';
 import type { ErrorComponentProps } from '@tanstack/react-router';
@@ -8,6 +8,7 @@ import { AccessDenied } from '@/components/shared';
 import { SystemCapabilities } from '@/constants';
 import { Sidebar } from '@/components/Sidebar';
 import { getNavigationUrlsFn, getPilotModeFn, verifyAdminTokenFn } from '@/server';
+import { cn, getSidebarCollapsed, getSidebarServerSnapshot, groupsRedirectRequired, subscribeToSidebar, toggleSidebar } from '@/utils';
 import { Header } from '@/components/Header';
 
 const PAGE_HEADINGS: Record<string, { titleKey: string }> = {
@@ -31,6 +32,9 @@ export const Route = createFileRoute('/_app')({
     }
 
     const [pilotEnabled, navigation] = await Promise.all([getPilotModeFn(), getNavigationUrlsFn()]);
+    if (groupsRedirectRequired(pilotEnabled, location.pathname, location.searchStr)) {
+      throw redirect({ to: '/access', search: { tab: 'groups' }, replace: true });
+    }
     return { user: result.user, pilotEnabled, navigation };
   },
   component: AppLayout,
@@ -39,24 +43,15 @@ export const Route = createFileRoute('/_app')({
 });
 
 function AppLayout() {
-  const { user, navigation } = Route.useRouteContext();
+  const { user, navigation, pilotEnabled } = Route.useRouteContext();
   const { hasCapability, isLoading, isError } = useCapabilities();
   const router = useRouter();
   const { open, setOpen } = useCommandMenu();
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
-    const stored = localStorage.getItem('admin-panel:sidebar-collapsed');
-    return stored !== null ? stored === 'true' : true;
-  });
-  const toggleSidebar = () =>
-    setSidebarCollapsed((prev) => {
-      const next = !prev;
-      localStorage.setItem('admin-panel:sidebar-collapsed', String(next));
-      return next;
-    });
+  const sidebarCollapsed = useSyncExternalStore(subscribeToSidebar, getSidebarCollapsed, getSidebarServerSnapshot);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
         e.preventDefault();
         toggleSidebar();
       }
@@ -76,7 +71,7 @@ function AppLayout() {
   const heading = PAGE_HEADINGS[matchedPath ?? '/'];
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className={cn('flex h-screen overflow-hidden', navigation.governanceAdminUrl && 'governance-app-shell')}>
       <Sidebar
         user={user}
         navigation={navigation}
@@ -84,7 +79,7 @@ function AppLayout() {
         onToggle={toggleSidebar}
       />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Header titleKey={heading.titleKey} onSearchClick={() => setOpen(true)} />
+        <Header titleKey={pilotEnabled ? 'com_groups_membership' : heading.titleKey} onSearchClick={() => setOpen(true)} />
         <main className="flex min-h-0 flex-1 flex-col overflow-auto">
           <Outlet />
         </main>

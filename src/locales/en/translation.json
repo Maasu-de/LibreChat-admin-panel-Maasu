@@ -1,4 +1,5 @@
 {
+  "com_groups_membership": "Groups & Membership",
   "com_ui_read_more": "Read more",
   "com_ui_add_item": "Add {{item}}",
   "com_ui_delete": "Delete",
@@ -1222,5 +1223,13 @@
   "com_kv_type_number": "123",
   "com_kv_type_boolean": "T/F",
   "com_kv_type_json": "{ }",
-  "com_a11y_logo_alt": "AIMO logo"
+  "com_a11y_logo_alt": "AIMO logo",
+  "com_nav_cost_usage": "Cost & Usage",
+  "com_nav_policy_configurator": "Policy Configurator",
+  "com_nav_governance_audit": "Audit Log",
+  "com_nav_administration": "Administration",
+  "com_account_menu_for": "Account menu for {{name}}",
+  "com_account": "Account",
+  "com_account_email_unavailable": "Email unavailable",
+  "com_account_administrator": "Administrator"
 }

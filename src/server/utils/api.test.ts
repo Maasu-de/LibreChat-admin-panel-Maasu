@@ -122,3 +122,32 @@ describe('apiFetch', () => {
     expect(headers['X-Custom']).toBe('keep-me');
   });
 });
+
+describe('governed server function boundary', () => {
+  it('blocks hidden operations before issuing a request', async () => {
+    vi.stubEnv('GOVERNANCE_PILOT_ENABLED', 'true');
+    try {
+      for (const path of ['/api/admin/roles', '/api/admin/grants', '/api/admin/users', '/api/admin/config']) {
+        const response = await apiFetch(path, { method: 'POST' });
+        expect(response.status).toBe(403);
+      }
+      expect(fetchMock).not.toHaveBeenCalled();
+    } finally { vi.unstubAllEnvs(); }
+  });
+  it('reuses LibreChat group and user-search APIs', async () => {
+    vi.stubEnv('GOVERNANCE_PILOT_ENABLED', 'true');
+    try {
+      ensureFreshBearer.mockResolvedValue('admin-token');
+      fetchMock.mockImplementation(() => Promise.resolve(jsonResponse(200)));
+      for (const [path, method] of [
+        ['/api/admin/groups?search=team', 'GET'], ['/api/admin/groups', 'POST'],
+        [`/api/admin/groups/${'a'.repeat(24)}`, 'PATCH'],
+        [`/api/admin/groups/${'a'.repeat(24)}`, 'DELETE'],
+        [`/api/admin/groups/${'a'.repeat(24)}/members`, 'POST'],
+        [`/api/admin/groups/${'a'.repeat(24)}/members/${'b'.repeat(24)}`, 'DELETE'],
+        ['/api/admin/users/search?q=existing', 'GET'], ['/api/admin/grants/effective', 'GET'],
+      ]) expect((await apiFetch(path, { method })).status).toBe(200);
+      expect(fetchMock).toHaveBeenCalledTimes(8);
+    } finally { vi.unstubAllEnvs(); }
+  });
+});
