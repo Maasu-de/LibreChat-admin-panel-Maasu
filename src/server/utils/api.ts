@@ -17,7 +17,10 @@ const PROACTIVE_REFRESH_SKEW_MS = 30_000;
  *   attempt.
  */
 export async function apiFetch(path: string, init?: RequestInit): Promise<Response> {
-  if (process.env.GOVERNANCE_PILOT_ENABLED === 'true' && !isGovernedApiAllowed(path, init?.method)) {
+  if (
+    process.env.GOVERNANCE_PILOT_ENABLED === 'true' &&
+    !isGovernedApiAllowed(path, init?.method)
+  ) {
     return Response.json({ error: 'Unavailable in governed mode' }, { status: 403 });
   }
   const initialToken = await ensureFreshBearer(PROACTIVE_REFRESH_SKEW_MS);
@@ -62,10 +65,28 @@ export async function extractApiError(response: Response, fallback: string): Pro
 
 export function isGovernedApiAllowed(path: string, method = 'GET'): boolean {
   const pathname = path.split('?')[0];
-  if (method === 'GET' && ['/api/admin/users/search', '/api/admin/grants/effective'].includes(pathname)) return true;
-  if (/^\/api\/admin\/groups(?:\/[a-f0-9]{24}(?:\/members(?:\/[a-f0-9]{24})?)?)?$/.test(pathname)) {
+  if (
+    method === 'GET' &&
+    ['/api/admin/users/search', '/api/admin/grants/effective'].includes(pathname)
+  )
+    return true;
+  const groupPath =
+    /^\/api\/admin\/groups(?:\/[a-f0-9]{24}(?:\/members(?:\/([^/?#\\]+))?)?)?$/.exec(pathname);
+  if (groupPath) {
+    if (groupPath[1] !== undefined) {
+      try {
+        const memberId = decodeURIComponent(groupPath[1]);
+        return (
+          method === 'DELETE' &&
+          memberId.trim().length > 0 &&
+          memberId.length <= 256 &&
+          !['.', '..'].includes(memberId)
+        );
+      } catch {
+        return false;
+      }
+    }
     if (pathname.endsWith('/members')) return ['GET', 'POST'].includes(method);
-    if (/\/members\//.test(pathname)) return method === 'DELETE';
     if (pathname === '/api/admin/groups') return ['GET', 'POST'].includes(method);
     return ['GET', 'PATCH', 'DELETE'].includes(method);
   }

@@ -42,7 +42,8 @@ function getUserInitials(user?: { name?: string; email?: string } | null): strin
 }
 
 export function Sidebar(props: t.SidebarProps) {
-  if (props.navigation.governanceAdminUrl) return <GovernanceSidebar {...props} />;
+  const pilotEnabled = usePilotMode();
+  if (pilotEnabled && props.navigation.governanceAdminUrl) return <GovernanceSidebar {...props} />;
   return <LegacySidebar {...props} />;
 }
 
@@ -57,7 +58,8 @@ function LegacySidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const visibleItems = navItems.filter((item) => {
-    if (pilotEnabled) return item.path === '/access' && hasCapability(SystemCapabilities.READ_GROUPS);
+    if (pilotEnabled)
+      return item.path === '/access' && hasCapability(SystemCapabilities.READ_GROUPS);
     if (!item.capability) return true;
     if (Array.isArray(item.capability)) return item.capability.some((c) => hasCapability(c));
     return hasCapability(item.capability);
@@ -98,8 +100,8 @@ function LegacySidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps
         )}
       >
         <Link
-          to={pilotEnabled ? "/access" : "/"}
-          search={pilotEnabled ? { tab: "groups" } : undefined}
+          to={pilotEnabled ? '/access' : '/'}
+          search={pilotEnabled ? { tab: 'groups' } : undefined}
           className="admin-sidebar-brand"
           aria-label={localize('com_groups_membership')}
         >
@@ -116,8 +118,16 @@ function LegacySidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps
                 to={item.path}
                 search={pilotEnabled ? { tab: 'groups' } : undefined}
                 aria-current={isActive(item.path) ? 'page' : undefined}
-                aria-label={collapsed ? localize(pilotEnabled ? 'com_groups_membership' : item.labelKey) : undefined}
-                title={collapsed ? localize(pilotEnabled ? 'com_groups_membership' : item.labelKey) : undefined}
+                aria-label={
+                  collapsed
+                    ? localize(pilotEnabled ? 'com_groups_membership' : item.labelKey)
+                    : undefined
+                }
+                title={
+                  collapsed
+                    ? localize(pilotEnabled ? 'com_groups_membership' : item.labelKey)
+                    : undefined
+                }
                 className="admin-sidebar-link"
               >
                 <span aria-hidden="true" className="shrink-0">
@@ -127,7 +137,9 @@ function LegacySidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps
                     <Icon name={item.icon} size="sm" />
                   )}
                 </span>
-                <span className="truncate text-sm">{localize(pilotEnabled ? 'com_groups_membership' : item.labelKey)}</span>
+                <span className="truncate text-sm">
+                  {localize(pilotEnabled ? 'com_groups_membership' : item.labelKey)}
+                </span>
               </Link>
             ))}
           </div>
