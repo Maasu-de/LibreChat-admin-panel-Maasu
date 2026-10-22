@@ -79,7 +79,10 @@ function AppLayout() {
         onToggle={toggleSidebar}
       />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Header titleKey={pilotEnabled ? 'com_groups_membership' : heading.titleKey} onSearchClick={() => setOpen(true)} />
+        <Header
+          titleKey={pilotEnabled ? 'com_groups_membership' : heading.titleKey}
+          onSearchClick={pilotEnabled ? undefined : () => setOpen(true)}
+        />
         <main className="flex min-h-0 flex-1 flex-col overflow-auto">
           <Outlet />
         </main>
