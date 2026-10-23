@@ -28,7 +28,6 @@ type EditRoleTab = 'details' | 'permissions' | 'members';
 
 export function EditRoleDialog({ role, canManage, onClose }: t.EditRoleDialogProps) {
   const localize = useLocalize();
-  canManage = canManage && role?.name.toUpperCase() !== 'ADMIN';
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<EditRoleTab>('details');
   const [name, setName] = useState(role?.name ?? '');

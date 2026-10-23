@@ -1187,7 +1187,7 @@
   "com_nav_grants": "Grants",
   "com_nav_gateway": "Homepage",
   "com_nav_chat": "Chat",
-  "com_nav_governance_admin_panel": "Admin Panel",
+  "com_nav_governance_admin_panel": "Governance Admin Panel",
   "com_nav_expand_sidebar": "Expand sidebar",
   "com_nav_collapse_sidebar": "Collapse sidebar",
   "com_nav_dashboard": "Overview",
@@ -1224,14 +1224,5 @@
   "com_kv_type_number": "123",
   "com_kv_type_boolean": "T/F",
   "com_kv_type_json": "{ }",
-  "com_a11y_logo_alt": "AIMO logo",
-  "com_nav_cost_usage": "Cost & Usage",
-  "com_nav_policy_configurator": "Governance Policy",
-  "com_nav_confidential_terms": "Confidential Terms",
-  "com_nav_governance_audit": "Audit Log",
-  "com_nav_administration": "Administration",
-  "com_account_menu_for": "Account menu for {{name}}",
-  "com_account": "Account",
-  "com_account_email_unavailable": "Email unavailable",
-  "com_account_administrator": "Administrator"
+  "com_a11y_logo_alt": "AIMO logo"
 }

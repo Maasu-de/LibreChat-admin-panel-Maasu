@@ -79,8 +79,6 @@ docker run -p 3000:3000 \
   -e VITE_BASE_PATH=/adminpanel \
   librechat-admin-panel
 ```
-
-
 In governance pilot mode, SSO is mandatory even when `ADMIN_SSO_ONLY` is unset.
 If SSO is disabled, unavailable, or misconfigured, the login page shows an
 explicit SSO-unavailable message. It does not offer local credentials. Pilot

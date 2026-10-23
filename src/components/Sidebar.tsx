@@ -8,7 +8,6 @@ import { SettingsDialog } from './SettingsDialog';
 import { SystemCapabilities } from '@/constants';
 import { getInitials, cn } from '@/utils';
 import { adminLogoutFn } from '@/server';
-import { GovernanceSidebar } from './governance';
 
 const navItems: t.NavItem[] = [
   { labelKey: 'com_nav_dashboard', path: '/', icon: 'home' },
@@ -41,13 +40,7 @@ function getUserInitials(user?: { name?: string; email?: string } | null): strin
   return '';
 }
 
-export function Sidebar(props: t.SidebarProps) {
-  const pilotEnabled = usePilotMode();
-  if (pilotEnabled && props.navigation.governanceAdminUrl) return <GovernanceSidebar {...props} />;
-  return <LegacySidebar {...props} />;
-}
-
-function LegacySidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps) {
+export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps) {
   const localize = useLocalize();
   const pilotEnabled = usePilotMode();
   const router = useRouter();
@@ -58,8 +51,9 @@ function LegacySidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const visibleItems = navItems.filter((item) => {
-    if (pilotEnabled)
+    if (pilotEnabled) {
       return item.path === '/access' && hasCapability(SystemCapabilities.READ_GROUPS);
+    }
     if (!item.capability) return true;
     if (Array.isArray(item.capability)) return item.capability.some((c) => hasCapability(c));
     return hasCapability(item.capability);
@@ -103,11 +97,17 @@ function LegacySidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps
           to={pilotEnabled ? '/access' : '/'}
           search={pilotEnabled ? { tab: 'groups' } : undefined}
           className="admin-sidebar-brand"
-          aria-label={localize('com_groups_membership')}
+          aria-label={
+            pilotEnabled
+              ? localize('com_groups_membership')
+              : `Chat Admin Panel ${localize('com_nav_dashboard')}`
+          }
         >
           <span className="admin-sidebar-logo admin-sidebar-logo-long" aria-hidden="true" />
           <span className="admin-sidebar-logo admin-sidebar-logo-small" aria-hidden="true" />
-          <span className="admin-sidebar-title">{localize('com_groups_membership')}</span>
+          <span className="admin-sidebar-title">
+            {pilotEnabled ? localize('com_groups_membership') : 'Chat Admin Panel'}
+          </span>
         </Link>
 
         <nav className="flex min-h-0 flex-1 flex-col pb-2" role="navigation">

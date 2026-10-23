@@ -112,9 +112,9 @@ describe('sidebar mode selection', () => {
       expect(screen.queryByRole('link', { name: 'Configuration' })).not.toBeInTheDocument();
       expect(screen.queryByRole('link', { name: 'Grants' })).not.toBeInTheDocument();
       if (gatewayConfigured) {
-        expect(screen.getByRole('link', { name: 'Governance Policy' })).toHaveAttribute(
+        expect(screen.getByRole('link', { name: 'Governance Admin Panel' })).toHaveAttribute(
           'href',
-          'https://gateway.example/admin/policies',
+          'https://gateway.example/admin',
         );
       }
     },

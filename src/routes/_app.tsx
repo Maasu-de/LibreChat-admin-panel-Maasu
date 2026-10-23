@@ -1,4 +1,4 @@
-import { useSyncExternalStore, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Icon } from '@clickhouse/click-ui';
 import { createFileRoute, Outlet, useRouter, Link, redirect } from '@tanstack/react-router';
 import type { ErrorComponentProps } from '@tanstack/react-router';
@@ -8,7 +8,7 @@ import { AccessDenied } from '@/components/shared';
 import { SystemCapabilities } from '@/constants';
 import { Sidebar } from '@/components/Sidebar';
 import { getNavigationUrlsFn, getPilotModeFn, verifyAdminTokenFn } from '@/server';
-import { cn, getSidebarCollapsed, getSidebarServerSnapshot, groupsRedirectRequired, subscribeToSidebar, toggleSidebar } from '@/utils';
+import { groupsRedirectRequired } from '@/utils';
 import { Header } from '@/components/Header';
 
 const PAGE_HEADINGS: Record<string, { titleKey: string }> = {
@@ -47,11 +47,20 @@ function AppLayout() {
   const { hasCapability, isLoading, isError } = useCapabilities();
   const router = useRouter();
   const { open, setOpen } = useCommandMenu();
-  const sidebarCollapsed = useSyncExternalStore(subscribeToSidebar, getSidebarCollapsed, getSidebarServerSnapshot);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    const stored = localStorage.getItem('admin-panel:sidebar-collapsed');
+    return stored !== null ? stored === 'true' : true;
+  });
+  const toggleSidebar = () =>
+    setSidebarCollapsed((prev) => {
+      const next = !prev;
+      localStorage.setItem('admin-panel:sidebar-collapsed', String(next));
+      return next;
+    });
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
         e.preventDefault();
         toggleSidebar();
       }
@@ -71,12 +80,7 @@ function AppLayout() {
   const heading = PAGE_HEADINGS[matchedPath ?? '/'];
 
   return (
-    <div
-      className={cn(
-        'flex h-screen overflow-hidden',
-        pilotEnabled && navigation.governanceAdminUrl && 'governance-app-shell',
-      )}
-    >
+    <div className="flex h-screen overflow-hidden">
       <Sidebar
         user={user}
         navigation={navigation}

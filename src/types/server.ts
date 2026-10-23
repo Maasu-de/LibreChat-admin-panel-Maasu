@@ -1,6 +1,6 @@
 import type { TUser } from 'librechat-data-provider';
 
-export type SerializableUser = Pick<TUser, 'id' | 'email' | 'name' | 'role' | 'avatar'>;
+export type SerializableUser = Pick<TUser, 'id' | 'email' | 'name' | 'role'>;
 
 export interface SessionData {
   user?: SerializableUser;

@@ -20,7 +20,7 @@ export const Route = createFileRoute('/_app/access')({
       {
         title: matches.some((match) => match.context.pilotEnabled)
           ? 'AIMO · Admin Panel · Groups & Membership'
-          : 'AIMO · Admin Panel · Access Control',
+          : 'AIMO · Chat Admin Panel · Access management',
       },
     ],
   }),
