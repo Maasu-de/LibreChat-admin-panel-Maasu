@@ -255,7 +255,7 @@ export function AuthCard({
 
         {generalError && <Alert type="banner" state="danger" text={generalError} />}
 
-        {ssoOnly ? (
+        {ssoOnly && (
           <>
             {(!ssoAvailable || autoRedirectFailed) && (
               <Alert type="banner" state="danger" text={localize('com_auth_sso_unavailable')} />
@@ -269,7 +269,8 @@ export function AuthCard({
               />
             )}
           </>
-        ) : step === '2fa' ? (
+        )}
+        {!ssoOnly && step === '2fa' && (
           <>
             <p className="text-center text-sm text-(--cui-color-text-muted)">
               {localize('com_auth_2fa_prompt')}
@@ -312,7 +313,8 @@ export function AuthCard({
               {localize('com_auth_2fa_back')}
             </button>
           </>
-        ) : (
+        )}
+        {!ssoOnly && step !== '2fa' && (
           <>
             <TextField
               label={localize('com_auth_email_label')}
