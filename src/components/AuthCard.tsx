@@ -39,8 +39,8 @@ export function AuthCard({
     enabled: ssoAvailableProp === undefined,
   });
   const ssoAvailable = ssoAvailableProp ?? openIdData?.available ?? false;
-
   const ssoOnly = ssoOnlyProp ?? openIdData?.ssoOnly ?? false;
+
   const showAutoRedirect = autoRedirectSso && !autoRedirectFailed;
 
   useEffect(() => {
@@ -255,9 +255,11 @@ export function AuthCard({
 
         {generalError && <Alert type="banner" state="danger" text={generalError} />}
 
-        {ssoOnly && (
+        {ssoOnly ? (
           <>
-            <Alert type="banner" state="danger" text={localize('com_auth_sso_unavailable')} />
+            {(!ssoAvailable || autoRedirectFailed) && (
+              <Alert type="banner" state="danger" text={localize('com_auth_sso_unavailable')} />
+            )}
             {ssoAvailable && (
               <Button
                 label={localize('com_auth_sso_sign_in')}
@@ -267,104 +269,99 @@ export function AuthCard({
               />
             )}
           </>
-        )}
-
-        {!ssoOnly &&
-          (step === '2fa' ? (
-            <>
-              <p className="text-center text-sm text-(--cui-color-text-muted)">
-                {localize('com_auth_2fa_prompt')}
-              </p>
-              <div className="flex justify-center">
-                <InputOTP
-                  maxLength={6}
-                  value={totpCode}
-                  onChange={(value) => setTotpCode(value)}
-                  onComplete={handleVerify2FA}
-                  pattern={REGEXP_ONLY_DIGITS}
-                  disabled={isSubmitting}
-                  aria-label={localize('com_auth_2fa_code_label')}
-                  autoFocus
-                >
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                  </InputOTPGroup>
-                  <InputOTPSeparator />
-                  <InputOTPGroup>
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
-              </div>
-              {isSubmitting && (
-                <p className="text-center text-sm text-(--cui-color-text-muted)">
-                  {localize('com_auth_2fa_verifying')}
-                </p>
-              )}
-              <button
-                type="button"
-                onClick={handleBack}
+        ) : step === '2fa' ? (
+          <>
+            <p className="text-center text-sm text-(--cui-color-text-muted)">
+              {localize('com_auth_2fa_prompt')}
+            </p>
+            <div className="flex justify-center">
+              <InputOTP
+                maxLength={6}
+                value={totpCode}
+                onChange={(value) => setTotpCode(value)}
+                onComplete={handleVerify2FA}
+                pattern={REGEXP_ONLY_DIGITS}
                 disabled={isSubmitting}
-                className="text-sm text-(--cui-color-accent-info) transition-colors hover:underline disabled:pointer-events-none disabled:opacity-50"
+                aria-label={localize('com_auth_2fa_code_label')}
+                autoFocus
               >
-                {localize('com_auth_2fa_back')}
-              </button>
-            </>
-          ) : (
-            <>
-              <TextField
-                label={localize('com_auth_email_label')}
-                placeholder={localize('com_auth_email_placeholder')}
-                value={email}
-                onChange={(value) => {
-                  setEmail(value);
-                  if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
-                }}
-                onKeyDown={handleKeyDown}
-                error={errors.email}
-              />
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                </InputOTPGroup>
+                <InputOTPSeparator />
+                <InputOTPGroup>
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
+            </div>
+            {isSubmitting && (
+              <p className="text-center text-sm text-(--cui-color-text-muted)">
+                {localize('com_auth_2fa_verifying')}
+              </p>
+            )}
+            <button
+              type="button"
+              onClick={handleBack}
+              disabled={isSubmitting}
+              className="text-sm text-(--cui-color-accent-info) transition-colors hover:underline disabled:pointer-events-none disabled:opacity-50"
+            >
+              {localize('com_auth_2fa_back')}
+            </button>
+          </>
+        ) : (
+          <>
+            <TextField
+              label={localize('com_auth_email_label')}
+              placeholder={localize('com_auth_email_placeholder')}
+              value={email}
+              onChange={(value) => {
+                setEmail(value);
+                if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
+              }}
+              onKeyDown={handleKeyDown}
+              error={errors.email}
+            />
 
-              <PasswordInput
-                label={localize('com_auth_password_label')}
-                placeholder={localize('com_auth_password_placeholder')}
-                value={password}
-                onChange={(value) => {
-                  setPassword(value);
-                  if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
-                }}
-                onKeyDown={handleKeyDown}
-                error={errors.password}
-              />
+            <PasswordInput
+              label={localize('com_auth_password_label')}
+              placeholder={localize('com_auth_password_placeholder')}
+              value={password}
+              onChange={(value) => {
+                setPassword(value);
+                if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
+              }}
+              onKeyDown={handleKeyDown}
+              error={errors.password}
+            />
 
-              <Button
-                label={
-                  isSubmitting ? localize('com_auth_signing_in') : localize('com_auth_sign_in')
-                }
-                type="primary"
-                onClick={handleLogin}
-                disabled={isSubmitting}
-              />
+            <Button
+              label={isSubmitting ? localize('com_auth_signing_in') : localize('com_auth_sign_in')}
+              type="primary"
+              onClick={handleLogin}
+              disabled={isSubmitting}
+            />
 
-              {ssoAvailable && (
-                <>
-                  <Separator size="sm" />
-                  <Button
-                    label={
-                      ssoLoading
-                        ? localize('com_auth_sso_redirecting')
-                        : localize('com_auth_sso_sign_in')
-                    }
-                    type="secondary"
-                    onClick={handleSsoLogin}
-                    disabled={ssoLoading}
-                  />
-                </>
-              )}
-            </>
-          ))}
+            {ssoAvailable && (
+              <>
+                <Separator size="sm" />
+                <Button
+                  label={
+                    ssoLoading
+                      ? localize('com_auth_sso_redirecting')
+                      : localize('com_auth_sso_sign_in')
+                  }
+                  type="secondary"
+                  onClick={handleSsoLogin}
+                  disabled={ssoLoading}
+                />
+              </>
+            )}
+          </>
+        )}
       </Container>
       <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
         {announcement}

@@ -117,6 +117,9 @@ export const adminVerify2FAFn = createServerFn({ method: 'POST' })
     }),
   )
   .handler(async ({ data }) => {
+    if (process.env.GOVERNANCE_PILOT_ENABLED === 'true') {
+      return { error: true, message: 'OIDC administrator session required' };
+    }
     try {
       const response = await fetch(`${getServerApiUrl()}/api/auth/2fa/verify-temp`, {
         method: 'POST',
