@@ -15,6 +15,7 @@ import aimoLogo from '@/assets/logo.svg';
 export function AuthCard({
   redirectTo = '/',
   autoRedirectSso = false,
+  ssoOnly: ssoOnlyProp,
   ssoAvailable: ssoAvailableProp,
 }: t.AuthCardProps) {
   const router = useRouter();
@@ -38,6 +39,7 @@ export function AuthCard({
     enabled: ssoAvailableProp === undefined,
   });
   const ssoAvailable = ssoAvailableProp ?? openIdData?.available ?? false;
+  const ssoOnly = ssoOnlyProp ?? openIdData?.ssoOnly ?? false;
 
   const showAutoRedirect = autoRedirectSso && !autoRedirectFailed;
 
@@ -253,7 +255,22 @@ export function AuthCard({
 
         {generalError && <Alert type="banner" state="danger" text={generalError} />}
 
-        {step === '2fa' ? (
+        {ssoOnly && (
+          <>
+            {(!ssoAvailable || autoRedirectFailed) && (
+              <Alert type="banner" state="danger" text={localize('com_auth_sso_unavailable')} />
+            )}
+            {ssoAvailable && (
+              <Button
+                label={localize('com_auth_sso_sign_in')}
+                type="primary"
+                onClick={handleSsoLogin}
+                disabled={ssoLoading}
+              />
+            )}
+          </>
+        )}
+        {!ssoOnly && step === '2fa' && (
           <>
             <p className="text-center text-sm text-(--cui-color-text-muted)">
               {localize('com_auth_2fa_prompt')}
@@ -296,7 +313,8 @@ export function AuthCard({
               {localize('com_auth_2fa_back')}
             </button>
           </>
-        ) : (
+        )}
+        {!ssoOnly && step !== '2fa' && (
           <>
             <TextField
               label={localize('com_auth_email_label')}

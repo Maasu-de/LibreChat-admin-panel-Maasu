@@ -8,6 +8,7 @@ import { AccessDenied } from '@/components/shared';
 import { SystemCapabilities } from '@/constants';
 import { Sidebar } from '@/components/Sidebar';
 import { getNavigationUrlsFn, getPilotModeFn, verifyAdminTokenFn } from '@/server';
+import { groupsRedirectRequired } from '@/utils';
 import { Header } from '@/components/Header';
 
 const PAGE_HEADINGS: Record<string, { titleKey: string }> = {
@@ -31,6 +32,9 @@ export const Route = createFileRoute('/_app')({
     }
 
     const [pilotEnabled, navigation] = await Promise.all([getPilotModeFn(), getNavigationUrlsFn()]);
+    if (groupsRedirectRequired(pilotEnabled, location.pathname, location.searchStr)) {
+      throw redirect({ to: '/access', search: { tab: 'groups' }, replace: true });
+    }
     return { user: result.user, pilotEnabled, navigation };
   },
   component: AppLayout,
@@ -39,7 +43,7 @@ export const Route = createFileRoute('/_app')({
 });
 
 function AppLayout() {
-  const { user, navigation } = Route.useRouteContext();
+  const { user, navigation, pilotEnabled } = Route.useRouteContext();
   const { hasCapability, isLoading, isError } = useCapabilities();
   const router = useRouter();
   const { open, setOpen } = useCommandMenu();
@@ -84,7 +88,10 @@ function AppLayout() {
         onToggle={toggleSidebar}
       />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Header titleKey={heading.titleKey} onSearchClick={() => setOpen(true)} />
+        <Header
+          titleKey={pilotEnabled ? 'com_groups_membership' : heading.titleKey}
+          onSearchClick={pilotEnabled ? undefined : () => setOpen(true)}
+        />
         <main className="flex min-h-0 flex-1 flex-col overflow-auto">
           <Outlet />
         </main>

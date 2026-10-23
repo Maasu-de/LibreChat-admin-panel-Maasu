@@ -79,3 +79,14 @@ docker run -p 3000:3000 \
   -e VITE_BASE_PATH=/adminpanel \
   librechat-admin-panel
 ```
+In governance pilot mode, SSO is mandatory even when `ADMIN_SSO_ONLY` is unset.
+If SSO is disabled, unavailable, or misconfigured, the login page shows an
+explicit SSO-unavailable message. It does not offer local credentials. Pilot
+sessions require LibreChat's `GOVERNANCE_ADMIN` role; full `ADMIN` is a separate
+role. The “Groups & Membership” page title is limited to pilot mode.
+
+If LibreChat rotates the OIDC refresh token but its subsequent administrator
+validation fails, the panel persists the rotated refresh token from the failure
+response and keeps the session available for retry without granting access.
+Only directly available configured claims are supported. Microsoft Graph
+resolution of Entra group overage is outside the current scope.

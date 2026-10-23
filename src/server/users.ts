@@ -58,7 +58,11 @@ export const deleteUserFn = createServerFn({ method: 'POST' })
 export const searchUsersFn = createServerFn({ method: 'GET' })
   .inputValidator(z.object({ query: z.string() }))
   .handler(async ({ data }): Promise<{ users: AdminUserSearchResult[] }> => {
-    const response = await apiFetch(`/api/admin/users/search?q=${encodeURIComponent(data.query)}`);
+    const endpoint =
+      process.env.GOVERNANCE_PILOT_ENABLED === 'true'
+        ? '/api/admin/groups/users/search'
+        : '/api/admin/users/search';
+    const response = await apiFetch(`${endpoint}?q=${encodeURIComponent(data.query)}`);
     if (!response.ok) {
       await extractApiError(response, 'Failed to search users');
     }

@@ -13,7 +13,7 @@ export const Route = createFileRoute('/login')({
     const openIdStatus = await checkOpenIdFn();
     return {
       ssoAvailable: openIdStatus.available,
-      ssoOnly: openIdStatus.available && openIdStatus.ssoOnly,
+      ssoOnly: openIdStatus.ssoOnly,
     };
   },
   component: LoginPage,
@@ -30,7 +30,12 @@ function LoginPage() {
       justifyContent="center"
       style={{ minHeight: '100vh', padding: '1rem', gap: '1rem' }}
     >
-      <AuthCard redirectTo={redirect} autoRedirectSso={ssoOnly} ssoAvailable={ssoAvailable} />
+      <AuthCard
+        redirectTo={redirect}
+        autoRedirectSso={ssoOnly && ssoAvailable}
+        ssoOnly={ssoOnly}
+        ssoAvailable={ssoAvailable}
+      />
       <div className="sm:absolute sm:bottom-0 sm:left-0 sm:m-4">
         <ThemeSelector returnThemeOnly />
       </div>

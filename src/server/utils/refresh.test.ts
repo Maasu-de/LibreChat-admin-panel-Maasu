@@ -81,9 +81,7 @@ describe('refreshAdminToken — tenant header forwarding', () => {
 
   it('omits X-Tenant-Id when the header is whitespace only', async () => {
     tenantHeader.value = '   ';
-    fetchMock.mockResolvedValueOnce(
-      jsonResponse(200, { token: 'new-jwt' }),
-    );
+    fetchMock.mockResolvedValueOnce(jsonResponse(200, { token: 'new-jwt' }));
 
     await refreshAdminToken('rt1', 'openid', 'user-1');
 
@@ -273,4 +271,21 @@ describe('refreshOn401', () => {
     expect(result).toBeUndefined();
     expect(fetchMock).not.toHaveBeenCalled();
   });
+});
+
+it('preserves a refresh token rotated before administrator validation became unavailable', async () => {
+  sessionState.data = { refreshToken: 'rt1', user: { id: 'user-1' }, token: 'old-access' };
+  fetchMock.mockResolvedValueOnce(
+    jsonResponse(503, { refreshToken: 'rt2', error_code: 'AUTHENTICATION_UNAVAILABLE' }),
+  );
+  expect(await refreshAdminToken('rt1', 'openid', 'user-1')).toBeUndefined();
+  expect(sessionState.data.refreshToken).toBe('rt2');
+  expect(sessionState.data.token).toBe('old-access');
+});
+
+it('does not persist rotated credentials into a changed session', async () => {
+  sessionState.data = { refreshToken: 'another-session', user: { id: 'another-user' } };
+  fetchMock.mockResolvedValueOnce(jsonResponse(503, { refreshToken: 'rt2' }));
+  await refreshAdminToken('rt1', 'openid', 'user-1');
+  expect(updateSpy).not.toHaveBeenCalled();
 });
