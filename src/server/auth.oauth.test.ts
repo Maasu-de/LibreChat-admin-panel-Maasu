@@ -142,7 +142,10 @@ describe('checkOpenIdFn', () => {
     const result = await checkOpenIdFn();
 
     expect(result).toEqual({ available: true, ssoOnly: false });
-    expect(fetchMock).toHaveBeenCalledWith('http://librechat.test/api/admin/oauth/openid/check');
+    expect(fetchMock).toHaveBeenCalledWith(
+      'http://librechat.test/api/admin/oauth/openid/check',
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    );
   });
 
   it('marks the session SSO-only when ADMIN_SSO_ONLY=true', async () => {
@@ -163,13 +166,13 @@ describe('checkOpenIdFn', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('lets ADMIN_SSO_ENABLED=false take precedence over ADMIN_SSO_ONLY=true', async () => {
+  it('keeps SSO-only deployments unavailable when SSO is disabled', async () => {
     process.env.ADMIN_SSO_ENABLED = 'false';
     process.env.ADMIN_SSO_ONLY = 'true';
 
     const result = await checkOpenIdFn();
 
-    expect(result).toEqual({ available: false, ssoOnly: false });
+    expect(result).toEqual({ available: false, ssoOnly: true });
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
@@ -181,3 +184,14 @@ describe('checkOpenIdFn', () => {
     expect(result).toEqual({ available: false, ssoOnly: false });
   });
 });
+
+it.each([false, true])(
+  'keeps pilot SSO-only on backend outage with SSO disabled=%s',
+  async (disabled) => {
+    vi.stubEnv('GOVERNANCE_PILOT_ENABLED', 'true');
+    vi.stubEnv('ADMIN_SSO_ENABLED', disabled ? 'false' : 'true');
+    fetchMock.mockResolvedValueOnce(jsonResponse(503, {}));
+    expect(await checkOpenIdFn()).toEqual({ available: false, ssoOnly: true });
+    vi.unstubAllEnvs();
+  },
+);

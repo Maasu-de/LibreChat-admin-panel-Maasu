@@ -9,4 +9,5 @@ export interface AuthCardProps {
   redirectTo?: string;
   autoRedirectSso?: boolean;
   ssoAvailable?: boolean;
+  ssoOnly?: boolean;
 }

@@ -191,7 +191,9 @@ export const verifyAdminTokenFn = createServerFn({ method: 'GET' }).handler(asyn
       return { valid: false, error: 'No session found' };
     }
 
-    if (user.role !== SystemRoles.ADMIN) {
+    const expectedRole =
+      process.env.GOVERNANCE_PILOT_ENABLED === 'true' ? 'GOVERNANCE_ADMIN' : SystemRoles.ADMIN;
+    if (user.role !== expectedRole) {
       await clearSession(session);
       return { valid: false, error: 'Not an admin user' };
     }
@@ -245,6 +247,12 @@ export const verifyAdminTokenFn = createServerFn({ method: 'GET' }).handler(asyn
                   return { valid: true, user };
                 }
               }
+            }
+            if (tokenProvider === 'openid') {
+              return {
+                valid: false,
+                error: 'OIDC authentication is unavailable. Sign in again or retry later.',
+              };
             }
             console.warn(
               '[verifyAdminTokenFn] Token refresh failed or unavailable, clearing session',
@@ -348,21 +356,15 @@ export const openIdCheckOptions = queryOptions({
 });
 
 export const checkOpenIdFn = createServerFn({ method: 'GET' }).handler(async () => {
-  if (process.env.ADMIN_SSO_ENABLED === 'false') {
-    return { available: false, ssoOnly: false };
-  }
+  const ssoOnly =
+    process.env.GOVERNANCE_PILOT_ENABLED === 'true' || process.env.ADMIN_SSO_ONLY === 'true';
+  if (process.env.ADMIN_SSO_ENABLED === 'false') return { available: false, ssoOnly };
   const checkUrl = `${getServerApiUrl()}/api/admin/oauth/openid/check`;
   try {
-    const response = await fetch(checkUrl);
-    if (!response.ok) {
-      console.warn('[checkOpenIdFn] OpenID check failed:', response.status, checkUrl);
-      return { available: false, ssoOnly: false };
-    }
-    const ssoOnly = process.env.ADMIN_SSO_ONLY === 'true';
-    return { available: true, ssoOnly };
-  } catch (error) {
-    console.warn('[checkOpenIdFn] OpenID check request failed:', checkUrl, error);
-    return { available: false, ssoOnly: false };
+    const response = await fetch(checkUrl, { signal: AbortSignal.timeout(5000) });
+    return { available: response.ok, ssoOnly };
+  } catch {
+    return { available: false, ssoOnly };
   }
 });
 

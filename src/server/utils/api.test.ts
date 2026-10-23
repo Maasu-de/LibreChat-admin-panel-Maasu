@@ -180,8 +180,8 @@ describe('governed server function boundary', () => {
         [`/api/admin/groups/${'a'.repeat(24)}`, 'DELETE'],
         [`/api/admin/groups/${'a'.repeat(24)}/members`, 'POST'],
         [`/api/admin/groups/${'a'.repeat(24)}/members/${'b'.repeat(24)}`, 'DELETE'],
-        ['/api/admin/users/search?q=existing', 'GET'],
-        ['/api/admin/grants/effective', 'GET'],
+        ['/api/admin/groups/users/search?q=existing', 'GET'],
+        ['/api/admin/groups/capabilities', 'GET'],
       ])
         expect((await apiFetch(path, { method })).status).toBe(200);
       expect(fetchMock).toHaveBeenCalledTimes(8);
@@ -189,4 +189,13 @@ describe('governed server function boundary', () => {
       vi.unstubAllEnvs();
     }
   });
+});
+
+it.each([
+  ['/api/admin/users/search?q=Alex', 'GET'],
+  ['/api/admin/grants/effective', 'GET'],
+  ['/api/admin/groups/capabilities', 'POST'],
+  ['/api/admin/groups/users/search?q=Alex', 'DELETE'],
+])('rejects unavailable pilot request %s %s', (path, method) => {
+  expect(isGovernedApiAllowed(path, method)).toBe(false);
 });

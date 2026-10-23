@@ -69,7 +69,18 @@ export async function refreshAdminToken(
         headers,
         body: JSON.stringify({ refresh_token: refreshToken, user_id: userId }),
       });
-      if (!response.ok) return undefined;
+      if (!response.ok) {
+        const failure = z
+          .object({ refreshToken: z.string().min(1).optional() })
+          .safeParse(await response.json().catch(() => null));
+        if (failure.success && failure.data.refreshToken) {
+          const session = await useAppSession();
+          if (session.data.refreshToken === refreshToken && session.data.user?.id === userId) {
+            await session.update({ refreshToken: failure.data.refreshToken });
+          }
+        }
+        return undefined;
+      }
       const parsed = refreshResponseSchema.safeParse(await response.json());
       if (!parsed.success) return undefined;
       return {

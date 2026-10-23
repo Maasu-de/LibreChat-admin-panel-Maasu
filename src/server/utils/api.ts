@@ -67,7 +67,7 @@ export function isGovernedApiAllowed(path: string, method = 'GET'): boolean {
   const pathname = path.split('?')[0];
   if (
     method === 'GET' &&
-    ['/api/admin/users/search', '/api/admin/grants/effective'].includes(pathname)
+    ['/api/admin/groups/users/search', '/api/admin/groups/capabilities'].includes(pathname)
   )
     return true;
   const groupPath =
