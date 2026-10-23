@@ -71,7 +71,12 @@ function AppLayout() {
   const heading = PAGE_HEADINGS[matchedPath ?? '/'];
 
   return (
-    <div className={cn('flex h-screen overflow-hidden', navigation.governanceAdminUrl && 'governance-app-shell')}>
+    <div
+      className={cn(
+        'flex h-screen overflow-hidden',
+        pilotEnabled && navigation.governanceAdminUrl && 'governance-app-shell',
+      )}
+    >
       <Sidebar
         user={user}
         navigation={navigation}
