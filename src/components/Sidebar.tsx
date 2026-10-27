@@ -7,7 +7,7 @@ import { useStripAriaExpanded, useCapabilities, useLocalize, usePilotMode } from
 import { SettingsDialog } from './SettingsDialog';
 import { SystemCapabilities } from '@/constants';
 import { getInitials, cn } from '@/utils';
-import { adminLogoutFn } from '@/server/auth';
+import { adminLogoutFn } from '@/server';
 
 const navItems: t.NavItem[] = [
   { labelKey: 'com_nav_dashboard', path: '/', icon: 'home' },
