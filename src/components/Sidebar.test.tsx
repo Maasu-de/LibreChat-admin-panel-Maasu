@@ -14,7 +14,15 @@ import { SystemCapabilities } from '@/constants';
 import { Sidebar } from './Sidebar';
 import '@/locales/i18n';
 
-vi.mock('@/server', () => ({ adminLogoutFn: vi.fn(), getEffectiveCapabilitiesFn: vi.fn() }));
+vi.hoisted(() => {
+  process.env.SESSION_SECRET = 'test-session-secret-that-is-long-enough';
+});
+vi.mock('@tanstack/react-start', () => ({
+  createServerFn: () => ({
+    handler: (handler: (...args: never[]) => unknown) => handler,
+    inputValidator: () => ({ handler: (handler: (...args: never[]) => unknown) => handler }),
+  }),
+}));
 
 beforeEach(() => {
   vi.stubGlobal('scrollTo', vi.fn());
@@ -60,7 +68,7 @@ async function renderSidebar(pilotEnabled: boolean, gatewayConfigured: boolean) 
   });
   const configuration = createRoute({ getParentRoute: () => app, path: '/configuration' });
   const groups = createRoute({ getParentRoute: () => app, path: '/access' });
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: Infinity } } });
   queryClient.setQueryData(['effectiveCapabilities', 'sidebar-user'], {
     available: true,
     capabilities: Object.values(SystemCapabilities),

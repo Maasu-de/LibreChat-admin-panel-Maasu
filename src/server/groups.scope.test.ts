@@ -2,17 +2,19 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { getEffectiveCapabilitiesFn } from './capabilities';
 import { searchUsersFn } from './users';
 
-const { ensureFreshBearer } = vi.hoisted(() => ({ ensureFreshBearer: vi.fn() }));
-vi.mock('./utils/refresh', () => ({
-  ensureFreshBearer: (...args: unknown[]) => ensureFreshBearer(...args),
-  refreshOn401: vi.fn(),
+const { session, updateSession } = vi.hoisted(() => ({
+  session: { data: { token: 'admin-token' } },
+  updateSession: vi.fn(),
+}));
+vi.mock('./session', () => ({
+  useAppSession: async () => ({ ...session, update: updateSession }),
 }));
 
 const fetchMock = vi.fn<typeof fetch>();
 
 beforeEach(() => {
-  ensureFreshBearer.mockReset();
-  ensureFreshBearer.mockResolvedValue('admin-token');
+  session.data = { token: 'admin-token' };
+  updateSession.mockReset();
   fetchMock.mockReset();
   vi.stubGlobal('fetch', fetchMock);
 });

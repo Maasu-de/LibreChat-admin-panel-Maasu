@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
-import { getEffectiveCapabilitiesFn } from '@/server';
+import { getEffectiveCapabilitiesFn } from '@/server/capabilities';
 import { hasImpliedCapability } from '@/constants';
 
 const Route = getRouteApi('/_app');
