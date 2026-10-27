@@ -6,6 +6,7 @@ import type * as t from '@/types';
 import { useStripAriaExpanded, useCapabilities, useLocalize, usePilotMode } from '@/hooks';
 import { SettingsDialog } from './SettingsDialog';
 import { SystemCapabilities } from '@/constants';
+import { GovernanceSidebar } from './governance';
 import { getInitials, cn } from '@/utils';
 import { adminLogoutFn } from '@/server';
 
@@ -40,7 +41,13 @@ function getUserInitials(user?: { name?: string; email?: string } | null): strin
   return '';
 }
 
-export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps) {
+export function Sidebar(props: t.SidebarProps) {
+  const pilotEnabled = usePilotMode();
+  if (pilotEnabled && props.navigation.governanceAdminUrl) return <GovernanceSidebar {...props} />;
+  return <StandaloneSidebar {...props} />;
+}
+
+function StandaloneSidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps) {
   const localize = useLocalize();
   const pilotEnabled = usePilotMode();
   const router = useRouter();
