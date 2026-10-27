@@ -5,6 +5,7 @@ import type { ErrorComponentProps } from '@tanstack/react-router';
 import {
   cn,
   getSidebarCollapsed,
+  finishNavigation,
   groupsRedirectRequired,
   subscribeToSidebar,
   toggleSidebar,
@@ -53,6 +54,7 @@ function AppLayout() {
   const { hasCapability, isLoading, isError } = useCapabilities();
   const router = useRouter();
   const { open, setOpen } = useCommandMenu();
+  useEffect(finishNavigation, []);
   const governed = pilotEnabled && !!navigation.governanceAdminUrl;
   const sidebarCollapsed = useSyncExternalStore(
     subscribeToSidebar,

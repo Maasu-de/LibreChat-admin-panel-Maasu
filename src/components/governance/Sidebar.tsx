@@ -12,11 +12,19 @@ import './sidebar.css';
 const primaryLinks = [
   ['com_nav_dashboard', '', 'overview'],
   ['com_nav_governance_policy', '/policies', 'shield'],
-  ['com_nav_confidential_terms', '/termlists', 'term-list'],
+  ['com_nav_confidential_terms', '/termlists/categories', 'term-list'],
   ['com_groups_membership', '/access', 'users'],
   ['com_nav_governance_audit', '/audit', 'audit'],
   ['com_nav_cost_usage', '/finance', 'usage'],
 ] as const;
+
+const destinations = {
+  '': 'overview',
+  '/policies': 'policies',
+  '/termlists/categories': 'termlists',
+  '/audit': 'audit',
+  '/finance': 'finance',
+} as const;
 
 export function GovernanceSidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps) {
   const localize = useLocalize();
@@ -103,6 +111,7 @@ export function GovernanceSidebar({ user, navigation, collapsed, onToggle }: t.S
         <div className="governance-sidebar-top">
           <a
             className="governance-brand"
+            data-navigation-destination="overview"
             href={navigation.governanceAdminUrl}
             aria-label={brand}
             title={collapsed ? brand : undefined}
@@ -156,6 +165,7 @@ export function GovernanceSidebar({ user, navigation, collapsed, onToggle }: t.S
                 <a
                   key={path}
                   href={`${navigation.governanceAdminUrl}${path}`}
+                  data-navigation-destination={destinations[path]}
                   aria-label={accessibleLabel}
                   title={accessibleLabel}
                 >

@@ -133,7 +133,7 @@ describe('sidebar mode selection', () => {
     ).toEqual([
       ['Overview', 'https://gateway.example/admin'],
       ['Governance Policy', 'https://gateway.example/admin/policies'],
-      ['Confidential Terms', 'https://gateway.example/admin/termlists'],
+      ['Confidential Terms', 'https://gateway.example/admin/termlists/categories'],
       ['Groups & Membership', '/access?tab=groups'],
       ['Audit Log', 'https://gateway.example/admin/audit'],
       ['Cost & Usage', 'https://gateway.example/admin/finance'],

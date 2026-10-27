@@ -1235,5 +1235,6 @@
   "com_account_administrator": "Administrator",
   "com_nav_governance_policy": "Governance Policy",
   "com_nav_admin": "Admin",
-  "com_nav_menu": "Menu"
+  "com_nav_menu": "Menu",
+  "com_navigation_loading": "Loading administration"
 }
