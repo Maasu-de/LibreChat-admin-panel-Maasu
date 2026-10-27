@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type * as t from '@/types';
 import { SECTION_META, splitCamelCase } from '@/components/configuration/configMeta';
-import { configSchemaTreeOptions } from '@/server';
+import { configSchemaTreeOptions } from '@/server/config';
 
 function buildSearchItems(tree: t.SchemaField[], localize: t.LocalizeFn): t.CommandItem[] {
   const items: t.CommandItem[] = [];
