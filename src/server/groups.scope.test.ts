@@ -2,27 +2,30 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { getEffectiveCapabilitiesFn } from './capabilities';
 import { searchUsersFn } from './users';
 
-const { apiFetch } = vi.hoisted(() => ({ apiFetch: vi.fn() }));
-vi.mock('@tanstack/react-start', () => ({
-  createServerFn: () => ({
-    handler: (handler: (...args: unknown[]) => unknown) => handler,
-    inputValidator: () => ({ handler: (handler: (...args: unknown[]) => unknown) => handler }),
-  }),
+const { ensureFreshBearer } = vi.hoisted(() => ({ ensureFreshBearer: vi.fn() }));
+vi.mock('./utils/refresh', () => ({
+  ensureFreshBearer: (...args: unknown[]) => ensureFreshBearer(...args),
+  refreshOn401: vi.fn(),
 }));
-vi.mock('./utils/api', () => ({ apiFetch, extractApiError: vi.fn() }));
+
+const fetchMock = vi.fn<typeof fetch>();
 
 beforeEach(() => {
-  apiFetch.mockReset();
+  ensureFreshBearer.mockReset();
+  ensureFreshBearer.mockResolvedValue('admin-token');
+  fetchMock.mockReset();
+  vi.stubGlobal('fetch', fetchMock);
 });
 afterEach(() => {
   vi.unstubAllEnvs();
+  vi.unstubAllGlobals();
 });
 
 it.each([true, false])('uses the appropriate capability endpoint with pilot=%s', async (pilot) => {
   vi.stubEnv('GOVERNANCE_PILOT_ENABLED', String(pilot));
-  apiFetch.mockResolvedValue(Response.json({ capabilities: ['read:groups', 'manage:groups'] }));
+  fetchMock.mockResolvedValue(Response.json({ capabilities: ['read:groups', 'manage:groups'] }));
   await getEffectiveCapabilitiesFn();
-  expect(apiFetch).toHaveBeenCalledWith(
+  expect(fetchMock.mock.calls[0][0]).toContain(
     pilot ? '/api/admin/groups/capabilities' : '/api/admin/grants/effective',
   );
 });
@@ -31,9 +34,9 @@ it.each([true, false])(
   'uses the appropriate candidate search endpoint with pilot=%s',
   async (pilot) => {
     vi.stubEnv('GOVERNANCE_PILOT_ENABLED', String(pilot));
-    apiFetch.mockResolvedValue(Response.json({ users: [] }));
+    fetchMock.mockResolvedValue(Response.json({ users: [] }));
     await searchUsersFn({ data: { query: 'Alex & Lee' } });
-    expect(apiFetch).toHaveBeenCalledWith(
+    expect(fetchMock.mock.calls[0][0]).toContain(
       `${pilot ? '/api/admin/groups/users/search' : '/api/admin/users/search'}?q=Alex%20%26%20Lee`,
     );
   },
