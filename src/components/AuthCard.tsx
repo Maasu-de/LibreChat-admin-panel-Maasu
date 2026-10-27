@@ -5,7 +5,7 @@ import { useRouter } from '@tanstack/react-router';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Alert, Panel, Button, Separator, TextField, Container } from '@clickhouse/click-ui';
 import type * as t from '@/types';
-import { adminLoginFn, adminVerify2FAFn, openIdCheckOptions, openidLoginFn } from '@/server/auth';
+import { adminLoginFn, adminVerify2FAFn, openIdCheckOptions, openidLoginFn } from '@/server';
 import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from './InputOTP';
 import { rememberPostLoginRedirect } from '@/utils';
 import { PasswordInput } from './PasswordInput';
