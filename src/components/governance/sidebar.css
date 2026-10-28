@@ -289,6 +289,7 @@
 .governance-app-shell {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   min-height: 100vh;
   background: var(--canvas);
   font-family:
@@ -325,7 +326,7 @@
 }
 @media (max-width: 833px) {
   .governance-app-shell {
-    display: block;
+    grid-template-columns: minmax(0, 1fr);
   }
   .governance-menu-button {
     display: inline-flex;

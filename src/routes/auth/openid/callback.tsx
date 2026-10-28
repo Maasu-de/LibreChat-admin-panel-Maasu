@@ -3,6 +3,7 @@ import { createFileRoute, redirect, Link } from '@tanstack/react-router';
 import { takePostLoginRedirect } from '@/utils';
 import { oauthExchangeFn } from '@/server';
 import { useLocalize } from '@/hooks';
+import { NavigationReady } from '@/components/navigation-transition';
 
 const searchSchema = z.object({
   code: z.string().optional(),
@@ -41,7 +42,11 @@ function OpenIdCallback() {
       : (loaderData.message ?? localize('com_auth_sso_exchange_failed'));
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-(--cui-color-background-default) px-4">
+    <div
+      role="alert"
+      className="flex min-h-screen items-center justify-center bg-(--cui-color-background-default) px-4"
+    >
+      <NavigationReady />
       <div className="flex max-w-md flex-col items-center gap-4 text-center">
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-(--cui-color-background-secondary)">
           <svg
