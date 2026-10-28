@@ -177,3 +177,33 @@ describe('sidebar mode selection', () => {
     expect(trigger).toHaveFocus();
   });
 });
+
+it('closes the native drawer before opening account settings', async () => {
+  await renderSidebar(true, true);
+  const drawer = await screen.findByRole('complementary', { name: 'Admin panel' });
+  // JSDOM has no native popover implementation. Model only that browser API;
+  // the sidebar, account menu and Settings dialog remain real components.
+  const originalMatches = drawer.matches.bind(drawer);
+  let popoverOpen = true;
+  const matches = vi
+    .spyOn(drawer, 'matches')
+    .mockImplementation((selector) =>
+      selector === ':popover-open' ? popoverOpen : originalMatches(selector),
+    );
+  const hidePopover = vi.fn(() => {
+    expect(screen.queryByRole('dialog', { name: 'Settings' })).not.toBeInTheDocument();
+    popoverOpen = false;
+  });
+  Object.defineProperty(drawer, 'hidePopover', { configurable: true, value: hidePopover });
+  try {
+    fireEvent.click(screen.getByRole('button', { name: 'Account menu for Demo Tester' }));
+    fireEvent.click(screen.getByRole('menuitem', { name: 'Settings' }));
+
+    expect(hidePopover).toHaveBeenCalledOnce();
+    expect(popoverOpen).toBe(false);
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: 'Settings' })).toBeInTheDocument();
+  } finally {
+    matches.mockRestore();
+  }
+});

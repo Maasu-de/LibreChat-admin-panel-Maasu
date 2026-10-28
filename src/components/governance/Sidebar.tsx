@@ -238,6 +238,7 @@ export function GovernanceSidebar({ user, navigation, collapsed, onToggle }: t.S
               type="button"
               onClick={() => {
                 setMenuOpen(false);
+                closeGovernanceDrawer();
                 setSettingsOpen(true);
               }}
             >
