@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { AccessDenied, PermissionsUnavailable } from '@/components/shared';
 import { AccessPage } from '@/components/access';
 import { SystemCapabilities } from '@/constants';
-import { useCapabilities } from '@/hooks';
+import { useCapabilities, usePilotMode } from '@/hooks';
 
 type Tab = 'groups' | 'roles';
 
@@ -15,7 +15,15 @@ function isValidTab(value?: string): value is Tab {
 }
 
 export const Route = createFileRoute('/_app/access')({
-  head: () => ({ meta: [{ title: 'AIMO · Chat Admin Panel · Access management' }] }),
+  head: ({ matches }) => ({
+    meta: [
+      {
+        title: matches.some((match) => match.context.pilotEnabled)
+          ? 'AIMO · Admin Panel · Groups & Membership'
+          : 'AIMO · Chat Admin Panel · Access management',
+      },
+    ],
+  }),
   validateSearch: (search: Record<string, unknown>): AccessSearch => ({
     tab: typeof search.tab === 'string' ? search.tab : undefined,
   }),
@@ -24,13 +32,14 @@ export const Route = createFileRoute('/_app/access')({
 
 function AccessRoute() {
   const { tab } = Route.useSearch();
+  const pilotEnabled = usePilotMode();
   const { hasCapability, isLoading, isError } = useCapabilities();
   const navigate = useNavigate({ from: '/access' });
 
   if (isLoading) return null;
   if (isError) return <PermissionsUnavailable />;
 
-  const canReadRoles = hasCapability(SystemCapabilities.READ_ROLES);
+  const canReadRoles = !pilotEnabled && hasCapability(SystemCapabilities.READ_ROLES);
   const canReadGroups = hasCapability(SystemCapabilities.READ_GROUPS);
 
   if (!canReadRoles && !canReadGroups) {

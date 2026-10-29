@@ -8,7 +8,7 @@ vi.mock('./refresh', () => ({
   refreshOn401: (...args: unknown[]) => refreshOn401(...args),
 }));
 
-import { apiFetch } from './api';
+import { apiFetch, isGovernedApiAllowed } from './api';
 
 const fetchMock = vi.fn();
 
@@ -121,4 +121,81 @@ describe('apiFetch', () => {
     expect(headers.Authorization).toBe('Bearer jwt-fresh');
     expect(headers['X-Custom']).toBe('keep-me');
   });
+});
+
+describe('governed server function boundary', () => {
+  it.each(['external-user', 'auth0|subject', 'https://identity.example/users/subject'])(
+    'removes unresolved external member %s through the existing API',
+    async (memberId) => {
+      vi.stubEnv('GOVERNANCE_PILOT_ENABLED', 'true');
+      try {
+        ensureFreshBearer.mockResolvedValueOnce('admin-token');
+        fetchMock.mockResolvedValueOnce(jsonResponse(200));
+        const path = `/api/admin/groups/${'a'.repeat(24)}/members/${encodeURIComponent(memberId)}`;
+
+        expect((await apiFetch(path, { method: 'DELETE' })).status).toBe(200);
+        expect(fetchMock).toHaveBeenCalledOnce();
+        expect(fetchMock.mock.calls[0][0]).toContain(path);
+        expect(isGovernedApiAllowed(path, 'POST')).toBe(false);
+      } finally {
+        vi.unstubAllEnvs();
+      }
+    },
+  );
+
+  it.each(['.', '..', '%2e%2e', '%', '%20', 'external/extra', 'external\\extra', 'a'.repeat(257)])(
+    'rejects invalid member path %s',
+    (memberId) => {
+      const path = `/api/admin/groups/${'a'.repeat(24)}/members/${memberId}`;
+      expect(isGovernedApiAllowed(path, 'DELETE')).toBe(false);
+    },
+  );
+
+  it('blocks hidden operations before issuing a request', async () => {
+    vi.stubEnv('GOVERNANCE_PILOT_ENABLED', 'true');
+    try {
+      for (const path of [
+        '/api/admin/roles',
+        '/api/admin/grants',
+        '/api/admin/users',
+        '/api/admin/config',
+      ]) {
+        const response = await apiFetch(path, { method: 'POST' });
+        expect(response.status).toBe(403);
+      }
+      expect(fetchMock).not.toHaveBeenCalled();
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+  it('reuses LibreChat group and user-search APIs', async () => {
+    vi.stubEnv('GOVERNANCE_PILOT_ENABLED', 'true');
+    try {
+      ensureFreshBearer.mockResolvedValue('admin-token');
+      fetchMock.mockImplementation(() => Promise.resolve(jsonResponse(200)));
+      for (const [path, method] of [
+        ['/api/admin/groups?search=team', 'GET'],
+        ['/api/admin/groups', 'POST'],
+        [`/api/admin/groups/${'a'.repeat(24)}`, 'PATCH'],
+        [`/api/admin/groups/${'a'.repeat(24)}`, 'DELETE'],
+        [`/api/admin/groups/${'a'.repeat(24)}/members`, 'POST'],
+        [`/api/admin/groups/${'a'.repeat(24)}/members/${'b'.repeat(24)}`, 'DELETE'],
+        ['/api/admin/groups/users/search?q=existing', 'GET'],
+        ['/api/admin/groups/capabilities', 'GET'],
+      ])
+        expect((await apiFetch(path, { method })).status).toBe(200);
+      expect(fetchMock).toHaveBeenCalledTimes(8);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+});
+
+it.each([
+  ['/api/admin/users/search?q=Alex', 'GET'],
+  ['/api/admin/grants/effective', 'GET'],
+  ['/api/admin/groups/capabilities', 'POST'],
+  ['/api/admin/groups/users/search?q=Alex', 'DELETE'],
+])('rejects unavailable pilot request %s %s', (path, method) => {
+  expect(isGovernedApiAllowed(path, method)).toBe(false);
 });

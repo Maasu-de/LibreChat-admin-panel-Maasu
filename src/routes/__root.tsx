@@ -17,6 +17,8 @@ import { BrandControlsTheme } from '../contexts/BrandControlsTheme';
 import { ThemeProvider, useTheme } from '../contexts/ThemeContext';
 import appCss from '../styles.css?url';
 import { useLocalize } from '@/hooks';
+import { NavigationChrome } from '@/components/navigation-transition';
+import { navigationBootstrapScript } from '@/utils';
 
 const themeScript = `(function(){
   try {
@@ -110,6 +112,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ScriptOnce children={themeScript} />
+        <ScriptOnce children={navigationBootstrapScript('groups')} />
+        <NavigationChrome />
         {children}
         <TanStackDevtools
           config={{

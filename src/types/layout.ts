@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, SVGProps } from 'react';
 import type { IconName } from './scope';
 
 export interface SidebarProps {
@@ -20,6 +20,7 @@ export interface NavItem {
 
 export interface HeaderProps {
   titleKey: string;
+  governed?: boolean;
   onSearchClick?: () => void;
   children?: ReactNode;
 }
@@ -39,4 +40,20 @@ export interface CommandItemProps {
 export interface SettingsDialogProps {
   open: boolean;
   onClose: () => void;
+}
+
+export interface GovernanceIconProps extends SVGProps<SVGSVGElement> {
+  name:
+    | 'overview'
+    | 'usage'
+    | 'shield'
+    | 'term-list'
+    | 'users'
+    | 'audit'
+    | 'chat'
+    | 'home'
+    | 'slide-in'
+    | 'slide-out'
+    | 'account-settings'
+    | 'sign-out';
 }

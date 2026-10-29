@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import ThemeSelector from '@/components/ThemeSelector';
 import { AuthCard } from '@/components/AuthCard';
 import { checkOpenIdFn } from '@/server';
+import { NavigationReady } from '@/components/navigation-transition';
 
 export const Route = createFileRoute('/login')({
   head: () => ({ meta: [{ title: 'AIMO · Chat Admin Panel · Sign in' }] }),
@@ -13,7 +14,7 @@ export const Route = createFileRoute('/login')({
     const openIdStatus = await checkOpenIdFn();
     return {
       ssoAvailable: openIdStatus.available,
-      ssoOnly: openIdStatus.available && openIdStatus.ssoOnly,
+      ssoOnly: openIdStatus.ssoOnly,
     };
   },
   component: LoginPage,
@@ -30,7 +31,13 @@ function LoginPage() {
       justifyContent="center"
       style={{ minHeight: '100vh', padding: '1rem', gap: '1rem' }}
     >
-      <AuthCard redirectTo={redirect} autoRedirectSso={ssoOnly} ssoAvailable={ssoAvailable} />
+      {(!ssoOnly || !ssoAvailable) && <NavigationReady />}
+      <AuthCard
+        redirectTo={redirect}
+        autoRedirectSso={ssoOnly && ssoAvailable}
+        ssoOnly={ssoOnly}
+        ssoAvailable={ssoAvailable}
+      />
       <div className="sm:absolute sm:bottom-0 sm:left-0 sm:m-4">
         <ThemeSelector returnThemeOnly />
       </div>

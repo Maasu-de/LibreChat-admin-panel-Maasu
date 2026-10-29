@@ -1,0 +1,274 @@
+/* Public loading chrome only: no account or application data is persisted. */
+.navigation-progress {
+  display: none;
+  position: fixed;
+  inset: 0 0 auto;
+  height: 2px;
+  z-index: 10000;
+  overflow: hidden;
+  background: transparent;
+  pointer-events: none;
+}
+html[data-navigation-state] .navigation-progress {
+  display: block;
+}
+.navigation-progress::after {
+  content: '';
+  display: block;
+  width: 35%;
+  height: 100%;
+  background: #0071e3;
+  animation: navigation-progress 1.2s ease-in-out infinite;
+}
+@keyframes navigation-progress {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(390%);
+  }
+}
+.navigation-shell {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  grid-template-columns: 248px minmax(0, 1fr);
+  background: var(--canvas);
+  color: var(--ink);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 150ms ease;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    Inter,
+    sans-serif;
+}
+html[data-navigation-state='incoming'] .navigation-shell,
+html[data-navigation-state='finishing'] .navigation-shell {
+  display: grid;
+}
+html[data-navigation-state='finishing'] .navigation-shell,
+html[data-navigation-state='finishing'] .navigation-progress {
+  opacity: 0;
+}
+.navigation-shell-rail {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 22px;
+  background: #000;
+  color: #ccc;
+}
+.navigation-shell-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  margin-bottom: 22px;
+  font-size: 12px;
+}
+.navigation-shell-logo {
+  display: block;
+  flex: none;
+  width: 83px;
+  height: 14px;
+  background: #fff;
+  mask: url('./governance/logo.svg') left center / contain no-repeat;
+}
+.navigation-shell-brand svg {
+  width: 18px;
+  height: 18px;
+}
+.navigation-shell-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.navigation-shell-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.016em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.navigation-shell-link svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.navigation-shell-destinations {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgb(255 255 255 / 12%);
+}
+.navigation-shell-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgb(255 255 255 / 12%);
+}
+.navigation-shell-avatar {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  background: #2a2a2c;
+}
+.navigation-shell-profile-lines {
+  display: grid;
+  flex: 1;
+  gap: 6px;
+}
+.navigation-shell-profile-lines span {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: #2a2a2c;
+}
+.navigation-shell-profile-lines span:first-child {
+  width: 70%;
+}
+.navigation-shell-header {
+  border-bottom: 1px solid var(--line);
+}
+.navigation-shell-header-inner,
+.navigation-shell-content {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 12px clamp(16px, 3vw, 32px);
+}
+.navigation-shell-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 64px;
+}
+.navigation-shell-header h1 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.011em;
+}
+.navigation-shell-header h1::before {
+  content: var(--navigation-title, '');
+}
+.navigation-shell-mobile-menu {
+  display: none;
+  width: 56px;
+  height: 32px;
+  border-radius: 999px;
+  background: var(--ink);
+}
+.navigation-shell-content {
+  display: grid;
+  gap: 20px;
+  padding-top: clamp(16px, 3vw, 32px);
+}
+.navigation-shell-skeleton {
+  height: 100px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+.navigation-shell-skeleton:first-child {
+  width: min(400px, 100%);
+  height: 37px;
+  border-radius: 999px;
+}
+html[data-navigation-collapsed='true'] .navigation-shell {
+  grid-template-columns: 64px minmax(0, 1fr);
+}
+html[data-navigation-collapsed='true'] .navigation-shell-rail {
+  padding-inline: 12px;
+}
+html[data-navigation-collapsed='true'] .navigation-shell-brand {
+  flex-direction: column;
+}
+html[data-navigation-collapsed='true'] .navigation-shell-logo {
+  width: 22px;
+  mask-image: url('./governance/logo_small.svg');
+}
+html[data-navigation-collapsed='true'] .navigation-shell-brand svg {
+  margin: 0;
+}
+html[data-navigation-collapsed='true'] .navigation-shell-link {
+  justify-content: center;
+  padding: 0;
+}
+html[data-navigation-collapsed='true'] .navigation-shell-link span,
+html[data-navigation-collapsed='true'] .navigation-shell-brand span,
+html[data-navigation-collapsed='true'] .navigation-shell-profile-lines {
+  display: none;
+}
+html[data-navigation-collapsed='true'] .navigation-shell-profile {
+  justify-content: center;
+}
+@media (max-width: 833px) {
+  html[data-navigation-state] .navigation-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .navigation-shell-rail {
+    display: none;
+  }
+  .navigation-shell-mobile-menu {
+    display: block;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .navigation-progress::after {
+    animation: none;
+    width: 100%;
+  }
+  .navigation-shell {
+    transition: none;
+  }
+}
+html[data-navigation-destination='overview'] .navigation-shell-link[data-section='overview'] {
+  background: #2a2a2c;
+  color: #fff;
+}
+html[data-navigation-destination='policies'] .navigation-shell-link[data-section='policies'] {
+  background: #2a2a2c;
+  color: #fff;
+}
+html[data-navigation-destination='termlists'] .navigation-shell-link[data-section='termlists'] {
+  background: #2a2a2c;
+  color: #fff;
+}
+html[data-navigation-destination='groups'] .navigation-shell-link[data-section='groups'] {
+  background: #2a2a2c;
+  color: #fff;
+}
+html[data-navigation-destination='audit'] .navigation-shell-link[data-section='audit'] {
+  background: #2a2a2c;
+  color: #fff;
+}
+html[data-navigation-destination='finance'] .navigation-shell-link[data-section='finance'] {
+  background: #2a2a2c;
+  color: #fff;
+}
+
+.navigation-shell-toggle {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  margin-left: auto;
+}
+html[data-navigation-collapsed='true'] .navigation-shell-toggle {
+  margin-left: 0;
+}

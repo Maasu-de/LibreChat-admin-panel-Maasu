@@ -74,11 +74,13 @@ export function CommandMenu({ open, onOpenChange }: t.CommandMenuProps) {
         </Command.Empty>
 
         <Command.Group heading={localize('com_cmdk_group_navigation')} className="cmdk-group">
-          <CommandItem
-            icon="home"
-            label={localize('com_nav_dashboard')}
-            onSelect={() => navigateTo('/')}
-          />
+          {!pilotEnabled && (
+            <CommandItem
+              icon="home"
+              label={localize('com_nav_dashboard')}
+              onSelect={() => navigateTo('/')}
+            />
+          )}
           {!pilotEnabled && (
             <CommandItem
               icon="settings"
@@ -88,19 +90,23 @@ export function CommandMenu({ open, onOpenChange }: t.CommandMenuProps) {
           )}
           <CommandItem
             icon="user"
-            label={localize('com_nav_access')}
-            onSelect={() => navigateTo('/access')}
+            label={localize(pilotEnabled ? 'com_groups_membership' : 'com_nav_access')}
+            onSelect={() => navigateTo('/access', pilotEnabled ? { tab: 'groups' } : undefined)}
           />
-          <CommandItem
-            icon="lock"
-            label={localize('com_nav_grants')}
-            onSelect={() => navigateTo('/grants')}
-          />
-          <CommandItem
-            icon="question"
-            label={localize('com_nav_help')}
-            onSelect={() => navigateTo('/help')}
-          />
+          {!pilotEnabled && (
+            <CommandItem
+              icon="lock"
+              label={localize('com_nav_grants')}
+              onSelect={() => navigateTo('/grants')}
+            />
+          )}
+          {!pilotEnabled && (
+            <CommandItem
+              icon="question"
+              label={localize('com_nav_help')}
+              onSelect={() => navigateTo('/help')}
+            />
+          )}
         </Command.Group>
 
         <Command.Group heading={localize('com_cmdk_group_tabs')} className="cmdk-group">
@@ -120,12 +126,14 @@ export function CommandMenu({ open, onOpenChange }: t.CommandMenuProps) {
             keywords={['access', 'groups', 'permissions']}
             onSelect={() => navigateTo('/access', { tab: 'groups' })}
           />
-          <CommandItem
-            icon="user"
-            label={localize('com_access_tab_roles')}
-            keywords={['access', 'roles', 'permissions']}
-            onSelect={() => navigateTo('/access', { tab: 'roles' })}
-          />
+          {!pilotEnabled && (
+            <CommandItem
+              icon="user"
+              label={localize('com_access_tab_roles')}
+              keywords={['access', 'roles', 'permissions']}
+              onSelect={() => navigateTo('/access', { tab: 'roles' })}
+            />
+          )}
         </Command.Group>
 
         {configSections.length > 0 && (
