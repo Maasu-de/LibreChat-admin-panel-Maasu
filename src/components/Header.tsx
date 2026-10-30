@@ -1,8 +1,9 @@
 import { Icon } from '@clickhouse/click-ui';
 import type * as t from '@/types';
+import { GOVERNANCE_DRAWER_ID } from '@/utils';
 import { useLocalize } from '@/hooks';
 
-export function Header({ titleKey, onSearchClick, children }: t.HeaderProps) {
+export function Header({ titleKey, onSearchClick, children, governed }: t.HeaderProps) {
   const localize = useLocalize();
   const isMac =
     typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
@@ -11,6 +12,16 @@ export function Header({ titleKey, onSearchClick, children }: t.HeaderProps) {
   return (
     <header className="admin-header shrink-0">
       <div className="admin-content-header flex flex-wrap items-center gap-3">
+        {governed && (
+          <button
+            type="button"
+            className="aimo-btn aimo-btn-outline governance-menu-button"
+            popoverTarget={GOVERNANCE_DRAWER_ID}
+            aria-controls={GOVERNANCE_DRAWER_ID}
+          >
+            {localize('com_nav_menu')}
+          </button>
+        )}
         <div className="min-w-40 flex-1">
           <h1 className="admin-header-title">{localize(titleKey)}</h1>
         </div>

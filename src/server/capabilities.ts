@@ -101,7 +101,11 @@ export const principalGrantsQueryOptions = (principalType: PrincipalType, princi
 
 export const getEffectiveCapabilitiesFn = createServerFn({ method: 'GET' }).handler(
   async (): Promise<{ capabilities: string[] }> => {
-    const response = await apiFetch('/api/admin/grants/effective');
+    const endpoint =
+      process.env.GOVERNANCE_PILOT_ENABLED === 'true'
+        ? '/api/admin/groups/capabilities'
+        : '/api/admin/grants/effective';
+    const response = await apiFetch(endpoint);
     if (!response.ok) {
       await extractApiError(response, 'Failed to fetch effective capabilities');
     }

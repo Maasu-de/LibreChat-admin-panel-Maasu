@@ -67,10 +67,6 @@ export function GroupsTab({ onCreateGroup }: t.GroupsTabProps) {
     onError: (err: Error) => notifyError(err.message),
   });
 
-  if (isLoading && !data) {
-    return <LoadingState />;
-  }
-
   if (isError && !data) {
     return (
       <div className="px-4 py-8 text-center text-sm text-red-ink">
@@ -102,9 +98,11 @@ export function GroupsTab({ onCreateGroup }: t.GroupsTabProps) {
         />
       </div>
 
-      {groups.length === 0 ? (
+      {isLoading && !data && <LoadingState />}
+      {!isLoading && groups.length === 0 && (
         <EmptyState message={localize('com_access_groups_empty')} />
-      ) : (
+      )}
+      {groups.length > 0 && (
         <div className={cn('flex flex-col gap-2.5', isFetching && 'opacity-60 transition-opacity')}>
           {groups.map((group) => (
             <div

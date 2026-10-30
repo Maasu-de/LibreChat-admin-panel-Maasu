@@ -79,3 +79,26 @@ docker run -p 3000:3000 \
   -e VITE_BASE_PATH=/adminpanel \
   librechat-admin-panel
 ```
+In governance pilot mode, SSO is mandatory even when `ADMIN_SSO_ONLY` is unset.
+If SSO is disabled, unavailable, or misconfigured, the login page shows an
+explicit SSO-unavailable message. It does not offer local credentials. Pilot
+sessions require LibreChat's `GOVERNANCE_ADMIN` role; full `ADMIN` is a separate
+role and does not qualify for governed administrator access. The configured
+Keycloak `governance-admin` ID-token claim maps to `GOVERNANCE_ADMIN`, granting
+admin-panel access and group/membership management only. The “Groups & Membership”
+page title is limited to pilot mode.
+
+The AI Governance Gateway Compose deployment fixes `GOVERNANCE_PILOT_ENABLED=true`
+for both LibreChat and this panel; changing `.env` cannot disable it. Standalone
+deployments may leave it unset/false to retain the full panel. Governed mode limits
+features for the deployment, while `GOVERNANCE_ADMIN` limits the person's permissions.
+The restrictions currently overlap; enabling another feature later must not
+automatically grant group administrators permission to manage it. See the Gateway's
+[administration model](https://github.com/Maasu-de/ai-governance-gateway/blob/main/docs/governance-administration.md)
+and [existing-realm deployment instructions](https://github.com/Maasu-de/ai-governance-gateway/blob/main/deploy/README.md#updating-an-existing-realm-for-governed-administration).
+
+If LibreChat rotates the OIDC refresh token but its subsequent administrator
+validation fails, the panel persists the rotated refresh token from the failure
+response and keeps the session available for retry without granting access.
+Only directly available configured claims are supported. Microsoft Graph
+resolution of Entra group overage is outside the current scope.

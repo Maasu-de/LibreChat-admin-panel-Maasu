@@ -6,6 +6,7 @@ import type * as t from '@/types';
 import { useStripAriaExpanded, useCapabilities, useLocalize, usePilotMode } from '@/hooks';
 import { SettingsDialog } from './SettingsDialog';
 import { SystemCapabilities } from '@/constants';
+import { GovernanceSidebar } from './governance';
 import { getInitials, cn } from '@/utils';
 import { adminLogoutFn } from '@/server';
 
@@ -40,7 +41,13 @@ function getUserInitials(user?: { name?: string; email?: string } | null): strin
   return '';
 }
 
-export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps) {
+export function Sidebar(props: t.SidebarProps) {
+  const pilotEnabled = usePilotMode();
+  if (pilotEnabled && props.navigation.governanceAdminUrl) return <GovernanceSidebar {...props} />;
+  return <StandaloneSidebar {...props} />;
+}
+
+function StandaloneSidebar({ user, navigation, collapsed, onToggle }: t.SidebarProps) {
   const localize = useLocalize();
   const pilotEnabled = usePilotMode();
   const router = useRouter();
@@ -51,7 +58,9 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const visibleItems = navItems.filter((item) => {
-    if (pilotEnabled && item.path === '/configuration') return false;
+    if (pilotEnabled) {
+      return item.path === '/access' && hasCapability(SystemCapabilities.READ_GROUPS);
+    }
     if (!item.capability) return true;
     if (Array.isArray(item.capability)) return item.capability.some((c) => hasCapability(c));
     return hasCapability(item.capability);
@@ -92,13 +101,20 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
         )}
       >
         <Link
-          to="/"
+          to={pilotEnabled ? '/access' : '/'}
+          search={pilotEnabled ? { tab: 'groups' } : undefined}
           className="admin-sidebar-brand"
-          aria-label={`Chat Admin Panel ${localize('com_nav_dashboard')}`}
+          aria-label={
+            pilotEnabled
+              ? localize('com_groups_membership')
+              : `Chat Admin Panel ${localize('com_nav_dashboard')}`
+          }
         >
           <span className="admin-sidebar-logo admin-sidebar-logo-long" aria-hidden="true" />
           <span className="admin-sidebar-logo admin-sidebar-logo-small" aria-hidden="true" />
-          <span className="admin-sidebar-title">Chat Admin Panel</span>
+          <span className="admin-sidebar-title">
+            {pilotEnabled ? localize('com_groups_membership') : 'Chat Admin Panel'}
+          </span>
         </Link>
 
         <nav className="flex min-h-0 flex-1 flex-col pb-2" role="navigation">
@@ -107,9 +123,18 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
               <Link
                 key={item.path}
                 to={item.path}
+                search={pilotEnabled ? { tab: 'groups' } : undefined}
                 aria-current={isActive(item.path) ? 'page' : undefined}
-                aria-label={collapsed ? localize(item.labelKey) : undefined}
-                title={collapsed ? localize(item.labelKey) : undefined}
+                aria-label={
+                  collapsed
+                    ? localize(pilotEnabled ? 'com_groups_membership' : item.labelKey)
+                    : undefined
+                }
+                title={
+                  collapsed
+                    ? localize(pilotEnabled ? 'com_groups_membership' : item.labelKey)
+                    : undefined
+                }
                 className="admin-sidebar-link"
               >
                 <span aria-hidden="true" className="shrink-0">
@@ -119,7 +144,9 @@ export function Sidebar({ user, navigation, collapsed, onToggle }: t.SidebarProp
                     <Icon name={item.icon} size="sm" />
                   )}
                 </span>
-                <span className="truncate text-sm">{localize(item.labelKey)}</span>
+                <span className="truncate text-sm">
+                  {localize(pilotEnabled ? 'com_groups_membership' : item.labelKey)}
+                </span>
               </Link>
             ))}
           </div>

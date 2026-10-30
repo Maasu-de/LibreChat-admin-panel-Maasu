@@ -5,3 +5,6 @@ export * from './interfacePermissions';
 export * from './session';
 export * from './toast';
 export * from './theme';
+export { groupsRedirectRequired } from './governance';
+export * from './sidebar';
+export * from './navigation-transition';
