@@ -1,6 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type * as t from '@/types';
-import { readThemePreference, writeThemePreference, subscribeToTheme } from '@/utils';
+import {
+  readThemePreference,
+  writeThemePreference,
+  renewThemePreference,
+  subscribeToTheme,
+} from '@/utils';
 
 const ThemeContext = createContext<t.ThemeContextValue | null>(null);
 
@@ -24,7 +29,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const setTheme = useCallback((next: t.ThemeOption) => {
     setThemeState(next);
     writeThemePreference(next);
-    applyClassesToDOM(next);
   }, []);
 
   useEffect(() => {
@@ -34,6 +38,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const sync = () => setThemeState(readThemePreference());
     const unsubscribe = subscribeToTheme(sync);
+    renewThemePreference();
     sync();
     return unsubscribe;
   }, []);
