@@ -1,7 +1,7 @@
 const GATEWAY_AUTHENTICATION_REQUIRED = 'AUTHENTICATION_REQUIRED';
 const POST_LOGIN_REDIRECT_KEY = 'admin-panel:post-login-redirect';
 /** Served by the governance SSO gateway (nginx), not by the admin panel */
-const GATEWAY_SESSION_PATH = '/_sso/session';
+const GATEWAY_SESSION_PATH = `${(import.meta.env.VITE_BASE_PATH || '').replace(/\/$/, '')}/_sso/session`;
 const GATEWAY_SESSION_CHECK_INTERVAL_MS = 30_000;
 const GATEWAY_SESSION_CHECK_TIMEOUT_MS = 10_000;
 

@@ -62,7 +62,10 @@ describe('watchGatewaySessionEnd', () => {
 });
 
 describe('pollGatewaySession', () => {
-  function createPollTarget(respond: (init?: RequestInit) => Response | Promise<Response>) {
+  function createPollTarget(
+    respond: (init?: RequestInit) => Response | Promise<Response>,
+    poll: typeof pollGatewaySession = pollGatewaySession,
+  ) {
     const windowEvents = new EventTarget();
     const documentEvents = new EventTarget();
     const reload = vi.fn();
@@ -80,7 +83,7 @@ describe('pollGatewaySession', () => {
       removeEventListener: windowEvents.removeEventListener.bind(windowEvents),
     };
     watchGatewaySessionEnd(target);
-    const stop = pollGatewaySession(target);
+    const stop = poll(target);
     return { reload, fetchMock, document, windowEvents, documentEvents, stop };
   }
 
@@ -89,7 +92,29 @@ describe('pollGatewaySession', () => {
     return () => {
       vi.useRealTimers();
       vi.restoreAllMocks();
+      vi.unstubAllEnvs();
     };
+  });
+
+  it.each([
+    ['', '/_sso/session'],
+    ['/', '/_sso/session'],
+    ['/librechat-admin', '/librechat-admin/_sso/session'],
+    ['/librechat-admin/', '/librechat-admin/_sso/session'],
+  ])('polls the gateway with base path %s', async (basePath, expectedPath) => {
+    vi.stubEnv('VITE_BASE_PATH', basePath);
+    vi.resetModules();
+    const session = await import('./session');
+    const { fetchMock, stop } = createPollTarget(
+      () => new Response(null, { status: 204 }),
+      session.pollGatewaySession,
+    );
+    await vi.advanceTimersByTimeAsync(30_000);
+    expect(fetchMock).toHaveBeenCalledWith(expectedPath, {
+      cache: 'no-store',
+      signal: expect.any(AbortSignal),
+    });
+    stop();
   });
 
   it('checks the gateway session every thirty seconds without reloading an active page', async () => {
