@@ -8,6 +8,7 @@ const links = [
   ['policies', 'com_nav_governance_policy', 'shield'],
   ['termlists', 'com_nav_confidential_terms', 'term-list'],
   ['groups', 'com_groups_membership', 'users'],
+  ['mcp', 'com_nav_mcp_connections', 'models'],
   ['audit', 'com_nav_governance_audit', 'audit'],
   ['finance', 'com_nav_cost_usage', 'usage'],
 ] as const;

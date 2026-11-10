@@ -135,6 +135,7 @@ describe('sidebar mode selection', () => {
       ['Governance Policy', 'https://gateway.example/admin/policies'],
       ['Confidential Terms', 'https://gateway.example/admin/termlists/categories'],
       ['Groups & Membership', '/access?tab=groups'],
+      ['MCP Connections', 'https://gateway.example/api/auth/open-mcp-connections'],
       ['Audit Log', 'https://gateway.example/admin/audit'],
       ['Cost & Usage', 'https://gateway.example/admin/finance'],
       ['Chat', 'https://gateway.example/api/auth/open-chat'],

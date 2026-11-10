@@ -47,6 +47,13 @@ export function GovernanceIcon({ name, ...props }: t.GovernanceIconProps) {
         <path d="M9 5h12M9 12h12M9 19h12" />
       </>
     ),
+    models: (
+      <>
+        <path d="m12 2 9 5-9 5-9-5 9-5Z" />
+        <path d="m3 12 9 5 9-5" />
+        <path d="m3 17 9 5 9-5" />
+      </>
+    ),
     usage: (
       <>
         <path d="M3 3v18h18" />
