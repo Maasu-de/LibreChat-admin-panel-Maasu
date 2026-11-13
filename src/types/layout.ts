@@ -49,6 +49,7 @@ export interface GovernanceIconProps extends SVGProps<SVGSVGElement> {
     | 'shield'
     | 'term-list'
     | 'users'
+    | 'models'
     | 'audit'
     | 'chat'
     | 'home'

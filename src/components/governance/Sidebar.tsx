@@ -14,6 +14,7 @@ const primaryLinks = [
   ['com_nav_governance_policy', '/policies', 'shield'],
   ['com_nav_confidential_terms', '/termlists/categories', 'term-list'],
   ['com_groups_membership', '/access', 'users'],
+  ['com_nav_mcp_connections', '/api/auth/open-mcp-connections', 'models'],
   ['com_nav_governance_audit', '/audit', 'audit'],
   ['com_nav_cost_usage', '/finance', 'usage'],
 ] as const;
@@ -138,6 +139,7 @@ export function GovernanceSidebar({ user, navigation, collapsed, onToggle }: t.S
           <div className="governance-sidebar-primary">
             {primaryLinks.map(([labelKey, path, icon]) => {
               const label = localize(labelKey);
+              const isMcpConnection = path === '/api/auth/open-mcp-connections';
               const content = (
                 <>
                   <GovernanceIcon name={icon} />
@@ -164,8 +166,8 @@ export function GovernanceSidebar({ user, navigation, collapsed, onToggle }: t.S
               return (
                 <a
                   key={path}
-                  href={`${navigation.governanceAdminUrl}${path}`}
-                  data-navigation-destination={destinations[path]}
+                  href={`${isMcpConnection ? navigation.gatewayUrl : navigation.governanceAdminUrl}${path}`}
+                  data-navigation-destination={isMcpConnection ? undefined : destinations[path]}
                   aria-label={accessibleLabel}
                   title={accessibleLabel}
                 >
