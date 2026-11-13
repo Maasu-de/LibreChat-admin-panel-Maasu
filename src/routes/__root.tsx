@@ -1,5 +1,4 @@
 import '../locales/i18n';
-import { useEffect } from 'react';
 import { ClickUIProvider } from '@clickhouse/click-ui';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
@@ -22,7 +21,7 @@ import { navigationBootstrapScript } from '@/utils';
 
 const themeScript = `(function(){
   try {
-    var t = localStorage.getItem('theme') || 'system';
+    var t = document.cookie.match(/(?:^|;\\s*)aimo-theme=(light|dark|system)(?:;|$)/)?.[1] || 'system';
     if (t === 'dark') document.documentElement.classList.add('dark');
     else if (t === 'light') document.documentElement.classList.add('light');
   } catch(e) {}
@@ -50,7 +49,7 @@ export const Route = createRootRoute({
       },
       {
         rel: 'icon',
-        href: `${(import.meta.env.VITE_BASE_PATH || '').replace(/\/$/, '')}/logo_small.svg`,
+        href: `${(import.meta.env.VITE_BASE_PATH || '').replace(/\/$/, '')}/favicon.svg`,
         type: 'image/svg+xml',
       },
       {
@@ -76,13 +75,6 @@ function RootComponent() {
 
 function ThemedApp() {
   const { resolvedTheme } = useTheme();
-  useEffect(() => {
-    const icon = document.querySelector<HTMLLinkElement>('link[rel="icon"][type="image/svg+xml"]');
-    if (!icon) return;
-    const basePath = (import.meta.env.VITE_BASE_PATH || '').replace(/\/$/, '');
-    const href = `${basePath}/${resolvedTheme === 'dark' ? 'logo_small_light.svg' : 'logo_small.svg'}`;
-    if (icon.getAttribute('href') !== href) icon.setAttribute('href', href);
-  }, [resolvedTheme]);
 
   return (
     <ClickUIProvider theme={resolvedTheme}>
